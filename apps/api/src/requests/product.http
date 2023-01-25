@@ -1,0 +1,9 @@
+
+GET http://localhost:3333/api/products
+Authorization: Basic admin:password
+
+###
+
+GET http://localhost:3333/api/products/1
+Authorization: Bearer admin
+

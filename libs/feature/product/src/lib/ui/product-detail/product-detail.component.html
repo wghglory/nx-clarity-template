@@ -1,3 +1,8 @@
 <ng-container *ngIf="product$ | async as product">
   <h2>Product Detail -- {{ product.name }}</h2>
+
+  <div class="space-x-6">
+    <span>Production Date</span>
+    <time class="text-sky-600">{{ product.productionDate }}</time>
+  </div>
 </ng-container>
