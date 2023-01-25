@@ -1,0 +1,26 @@
+<header class="header-6">
+  <div class="branding">
+    <a routerLink="/" class="nav-link">
+      <cds-icon shape="vm-bug"></cds-icon>
+      <span class="title">Clarity Design</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a
+      routerLink="/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="active"
+      class="active nav-link"
+      aria-current="page"
+      ><span class="nav-text">Dashboard</span></a
+    >
+    <a routerLink="/products" routerLinkActive="active" class="nav-link"
+      ><span class="nav-text">Products</span></a
+    >
+  </div>
+  <div class="header-actions">
+    <a routerLink="/" class="nav-link nav-icon" aria-label="settings">
+      <cds-icon shape="cog"></cds-icon>
+    </a>
+  </div>
+</header>
