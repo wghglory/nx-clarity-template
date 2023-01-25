@@ -1,1 +1,3 @@
-<p>product-detail works!</p>
+<ng-container *ngIf="product$ | async as product">
+  <h2>Product Detail -- {{ product.name }}</h2>
+</ng-container>
