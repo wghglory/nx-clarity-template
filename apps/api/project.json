@@ -1,7 +1,7 @@
 {
-  "name": "mock",
+  "name": "api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/mock/src",
+  "sourceRoot": "apps/api/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,11 +10,11 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/mock",
-        "main": "apps/mock/src/main.ts",
-        "tsConfig": "apps/mock/tsconfig.app.json",
-        "assets": ["apps/mock/src/assets"],
-        "webpackConfig": "apps/mock/webpack.config.js"
+        "outputPath": "dist/apps/api",
+        "main": "apps/api/src/main.ts",
+        "tsConfig": "apps/api/tsconfig.app.json",
+        "assets": ["apps/api/src/assets"],
+        "webpackConfig": "apps/api/webpack.config.js"
       },
       "configurations": {
         "production": {
@@ -27,11 +27,11 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "mock:build"
+        "buildTarget": "api:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "mock:build:production"
+          "buildTarget": "api:build:production"
         }
       }
     },
@@ -39,7 +39,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/mock/**/*.ts"]
+        "lintFilePatterns": ["apps/api/**/*.ts"]
       }
     }
   },
