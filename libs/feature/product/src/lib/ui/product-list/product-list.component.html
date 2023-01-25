@@ -7,14 +7,5 @@
 </ul>
 
 <ng-template #loadingOrError>
-  <clr-alert
-    [clrAlertType]="'danger'"
-    *ngIf="error$ | async as error; else loading"
-  >
-    <clr-alert-item>
-      <span class="alert-text">{{ error.message }}</span>
-    </clr-alert-item>
-  </clr-alert>
-
-  <ng-template #loading><div class="spinner"></div></ng-template>
+  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
 </ng-template>

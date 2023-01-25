@@ -17,7 +17,8 @@
     "paths": {
       "@seed/core/ui": ["libs/core/ui/src/index.ts"],
       "@seed/feature/product": ["libs/feature/product/src/index.ts"],
-      "@seed/shared/models": ["libs/shared/models/src/index.ts"]
+      "@seed/shared/models": ["libs/shared/models/src/index.ts"],
+      "@seed/shared/ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
