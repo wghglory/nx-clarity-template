@@ -2,7 +2,11 @@
   "name": "seed",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "api": "npx nx serve api",
+    "seed": "npx nx serve seed",
+    "start": "npm run api & npm run seed"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~15.1.0",
