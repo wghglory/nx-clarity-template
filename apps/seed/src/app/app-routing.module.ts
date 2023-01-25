@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { productRoutes } from '@seed/feature/product';
+
 import { NxWelcomeComponent } from './nx-welcome.component';
 
 const routes: Route[] = [
