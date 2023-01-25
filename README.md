@@ -7,6 +7,7 @@
 3. add clarity
 4. generate tailwind
 5. add `@nrwl/express`, and generate api express server
+6. generate shared models: `nx generate @nrwl/workspace:library models --skipBabelrc --directory=shared  --no-standaloneConfig --testEnvironment=node --unitTestRunner=none`
 
 ## What's included?
 
