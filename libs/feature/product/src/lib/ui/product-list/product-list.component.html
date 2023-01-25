@@ -1,7 +1,20 @@
 <h2>Products</h2>
 
-<ul *ngIf="products$ | async as products">
+<ul *ngIf="products$ | async as products; else loadingOrError">
   <li *ngFor="let product of products">
     <a [routerLink]="product.id">{{ product.name }}</a>
   </li>
 </ul>
+
+<ng-template #loadingOrError>
+  <clr-alert
+    [clrAlertType]="'danger'"
+    *ngIf="error$ | async as error; else loading"
+  >
+    <clr-alert-item>
+      <span class="alert-text">{{ error.message }}</span>
+    </clr-alert-item>
+  </clr-alert>
+
+  <ng-template #loading><div class="spinner"></div></ng-template>
+</ng-template>

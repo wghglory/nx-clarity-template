@@ -9,7 +9,7 @@ import { Product } from '../models/product';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  products$ = this.http.get<Product[]>('/api/products');
+  products$ = this.http.get<Product[]>('/api/producsts');
 
   getProduct(id: number) {
     return this.http.get<Product>(`/api/products/${id}`);

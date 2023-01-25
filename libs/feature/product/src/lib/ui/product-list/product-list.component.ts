@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ClarityModule } from '@clr/angular';
+import { catchError, EMPTY, Subject } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'seed-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ClarityModule],
   templateUrl: './product-list.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,5 +18,12 @@ import { ProductService } from '../../services/product.service';
 export class ProductListComponent {
   constructor(private productService: ProductService) {}
 
-  products$ = this.productService.products$;
+  error$ = new Subject<HttpErrorResponse>();
+
+  products$ = this.productService.products$.pipe(
+    catchError((err) => {
+      this.error$.next(err);
+      return EMPTY;
+    })
+  );
 }
