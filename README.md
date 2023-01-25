@@ -1,5 +1,13 @@
 # Seed
 
+## How to generate this repo?
+
+1. npx create-nx-workspace@15.6.1
+2. repository name: seed; application name: seed
+3. add clarity
+4. generate tailwind
+5. add `@nrwl/express`, and generate api express server
+
 ## What's included?
 
 - clarity ng 15
@@ -15,6 +23,8 @@
 ## TODO after download this template
 
 Replace seed to your project name.
+
+- [ ] Jest setup
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
