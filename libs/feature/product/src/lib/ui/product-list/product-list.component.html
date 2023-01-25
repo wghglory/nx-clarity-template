@@ -1,0 +1,5 @@
+<p>product-list works!</p>
+
+<ul *ngIf="products$ | async as products">
+  <li *ngFor="let product of products">{{ product.name }}</li>
+</ul>

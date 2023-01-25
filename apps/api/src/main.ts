@@ -14,6 +14,13 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
 
+app.get('/api/products', (req, res) => {
+  res.send([
+    { id: 1, name: 'Basketball' },
+    { id: 2, name: 'Football' },
+  ]);
+});
+
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);

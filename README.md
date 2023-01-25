@@ -8,6 +8,7 @@
 4. generate tailwind
 5. add `@nrwl/express`, and generate api express server
 6. generate shared models: `nx generate @nrwl/workspace:library models --skipBabelrc --directory=shared  --no-standaloneConfig --testEnvironment=node --unitTestRunner=none`
+7. generate feature lib: `npx nx generate @nrwl/angular:library product --style=scss --directory=feature --changeDetection=OnPush --inlineStyle --lazy --routing --standalone`
 
 ## What's included?
 
