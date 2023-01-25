@@ -5,7 +5,11 @@
   "scripts": {
     "api": "npx nx serve api",
     "seed": "npx nx serve seed",
-    "start": "npm run api & npm run seed"
+    "start": "npm run api & npm run seed",
+    "test": "npx nx run-many --all --target=test --parallel",
+    "e2e": "npx nx run dp-e2e:e2e --headed=false --watch",
+    "prettier": "prettier --config ./.prettierrc  --write --list-different '{apps,libs,mock}/**/*{.ts,.js,.json,.css,.scss,.md,.html}'",
+    "fix": "nx run-many --all --target=lint -- --fix"
   },
   "private": true,
   "dependencies": {
@@ -55,12 +59,16 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-simple-import-sort": "^9.0.0",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "~12.2.3",
     "nx": "15.6.1",
     "postcss": "^8.4.5",
     "prettier": "^2.6.2",
+    "prettier-plugin-tailwindcss": "^0.2.1",
     "tailwindcss": "^3.0.2",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",

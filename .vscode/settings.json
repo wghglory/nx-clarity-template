@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "fileheader.customMade": {
+    "custom_string_obkoro1_copyright": "****************************************************\n* Copyright ${now_year} VMware, Inc. All rights reserved. *\n****************************************************"
+  },
+  "fileheader.configObj": {
+    "autoAdd": true,
+    "createHeader": true,
+    "atSymbol": ""
+  }
+}
