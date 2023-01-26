@@ -14,4 +14,8 @@ export class ProductService {
   getProduct(id: string) {
     return this.http.get<Product>(`/api/products/${id}`);
   }
+
+  deleteProduct(id: string) {
+    return this.http.delete<void>(`/api/products/${id}`);
+  }
 }

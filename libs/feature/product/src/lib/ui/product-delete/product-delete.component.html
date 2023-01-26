@@ -1,0 +1,29 @@
+<clr-modal [(clrModalOpen)]="open" (clrModalOpenChange)="close()">
+  <h3 class="modal-title">Delete Product</h3>
+  <div class="modal-body">
+    <p cds-text>Are you sure to delete {{ product.name }}?</p>
+
+    <clr-alert [clrAlertType]="'danger'" *ngIf="error$ | async as error">
+      <clr-alert-item>
+        <span class="alert-text">
+          {{ error.message }}
+        </span>
+      </clr-alert-item>
+    </clr-alert>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="close()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [clrLoading]="loading$ | async"
+      (click)="confirm()"
+    >
+      Confirm
+    </button>
+  </div>
+</clr-modal>
+
+<ng-container *ngIf="delete$ | async"> </ng-container>

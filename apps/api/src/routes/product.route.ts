@@ -17,3 +17,14 @@ productRouter.get('/:id', (req, res) => {
   }
   return res.status(404).send({ message: 'not found' });
 });
+
+productRouter.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  const index = products.findIndex((p) => p.id === id);
+
+  if (index > -1) {
+    products.splice(index, 1);
+    return res.status(204).send();
+  }
+  return res.status(404).send({ message: 'not found' });
+});
