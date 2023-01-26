@@ -1,11 +1,15 @@
 <h2>Products</h2>
 
-<ul *ngIf="products$ | async as products; else loadingOrError">
+<ul *ngIf="products$ | async as products">
   <li *ngFor="let product of products">
     <a [routerLink]="product.id">{{ product.name }}</a>
   </li>
 </ul>
 
-<ng-template #loadingOrError>
-  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
-</ng-template>
+<clr-alert *ngIf="error$ | async as error" [clrAlertType]="'danger'">
+  <clr-alert-item>
+    <span class="alert-text">{{ error.message }}</span>
+  </clr-alert-item>
+</clr-alert>
+
+<div class="spinner my-6 block" *ngIf="loading$ | async"></div>
