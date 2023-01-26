@@ -1,5 +1,7 @@
 <h2>Products</h2>
 
+<p>Auto polling every 3 seconds, but no loading</p>
+
 <ul *ngIf="products$ | async as products; else loadingOrError">
   <li *ngFor="let product of products">
     <a [routerLink]="product.id">{{ product.name }}</a>
