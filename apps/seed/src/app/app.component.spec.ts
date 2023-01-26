@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { NavbarComponent } from '@seed/core/ui';
+import { MockComponent } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
@@ -6,7 +8,11 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, NxWelcomeComponent],
+      declarations: [
+        AppComponent,
+        MockComponent(NxWelcomeComponent),
+        MockComponent(NavbarComponent),
+      ],
     }).compileComponents();
   });
 
@@ -20,12 +26,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('seed');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Welcome seed');
   });
 });
