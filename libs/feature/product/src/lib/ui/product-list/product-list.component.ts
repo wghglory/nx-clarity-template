@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
-import { catchError, EMPTY, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Subject, switchMap } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
 
@@ -19,12 +19,20 @@ import { ProductService } from '../../services/product.service';
 export class ProductListComponent {
   constructor(private productService: ProductService) {}
 
-  error$ = new Subject<HttpErrorResponse>();
+  private errorSub = new Subject<HttpErrorResponse>();
+  error$ = this.errorSub.asObservable();
 
-  products$ = this.productService.products$.pipe(
+  refreshSub = new BehaviorSubject<void>(undefined);
+
+  products$ = this.refreshSub.pipe(
+    switchMap(() => this.productService.products$),
     catchError((err) => {
-      this.error$.next(err);
+      this.errorSub.next(err);
       return EMPTY;
     })
   );
+
+  reload() {
+    this.refreshSub.next();
+  }
 }

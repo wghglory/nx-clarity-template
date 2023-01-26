@@ -1,5 +1,9 @@
 <h2>Products</h2>
 
+<p>Refresh works but no loading</p>
+
+<button class="btn btn-secondary mb-10" (click)="reload()">Refresh</button>
+
 <ul *ngIf="products$ | async as products; else loadingOrError">
   <li *ngFor="let product of products">
     <a [routerLink]="product.id">{{ product.name }}</a>
