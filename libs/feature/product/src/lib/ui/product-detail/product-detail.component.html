@@ -1,4 +1,4 @@
-<ng-container *ngIf="product$ | async as product">
+<ng-container *ngIf="product$ | async as product; else loadingOrError">
   <h2>Product Detail -- {{ product.name }}</h2>
 
   <div class="space-x-6">
@@ -6,3 +6,7 @@
     <time class="text-sky-600">{{ product.productionDate }}</time>
   </div>
 </ng-container>
+
+<ng-template #loadingOrError>
+  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
+</ng-template>
