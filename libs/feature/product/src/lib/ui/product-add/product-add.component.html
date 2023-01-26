@@ -1,0 +1,35 @@
+<h2>Add a new product</h2>
+
+<form clrForm [formGroup]="productForm" (ngSubmit)="save()">
+  <clr-control-container>
+    <label>Product Name</label>
+    <input clrControl formControlName="name" />
+  </clr-control-container>
+
+  <clr-alert
+    class="mt-6"
+    [clrAlertType]="'danger'"
+    *ngIf="error$ | async as error"
+  >
+    <clr-alert-item>
+      <span class="alert-text">
+        {{ error.message }}
+      </span>
+    </clr-alert-item>
+  </clr-alert>
+
+  <div class="mt-6">
+    <button class="btn btn-outline" type="button" (click)="goBack()">
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      [clrLoading]="loading$ | async"
+      type="submit"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+
+<ng-container *ngIf="add$ | async"></ng-container>

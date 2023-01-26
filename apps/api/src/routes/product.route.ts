@@ -1,3 +1,4 @@
+import { Product } from '@seed/feature/product';
 import express from 'express';
 
 import { products } from '../data/product.data';
@@ -16,6 +17,20 @@ productRouter.get('/:id', (req, res) => {
     return res.send(found);
   }
   return res.status(404).send({ message: 'not found' });
+});
+
+productRouter.post('/', (req, res) => {
+  const name = req.body.name;
+
+  const product = {
+    id: Date.now().toString(),
+    name,
+    productionDate: new Date().toISOString(),
+  } as Product;
+
+  products.unshift(product);
+
+  return res.send(product);
 });
 
 productRouter.delete('/:id', (req, res) => {

@@ -11,4 +11,11 @@ export const productRoutes: Route[] = [
         (m) => m.ProductDetailComponent
       ),
   },
+  {
+    path: '@/add',
+    loadComponent: () =>
+      import('./ui/product-add/product-add.component').then(
+        (m) => m.ProductAddComponent
+      ),
+  },
 ];
