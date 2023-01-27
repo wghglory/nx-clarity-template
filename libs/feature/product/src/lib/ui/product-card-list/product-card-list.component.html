@@ -1,1 +1,20 @@
-<p>product-card-list works!</p>
+<div
+  *ngIf="products$ | async as products; else loadingOrError"
+  class="grid grid-cols-3 gap-6"
+>
+  <div *ngFor="let product of products" class="card mt-0 flex flex-col">
+    <h3 class="card-header">
+      <a [routerLink]="product.id">{{ product.name }}</a>
+    </h3>
+    <div class="card-block flex-1">
+      <p cds-text>{{ product.description }}</p>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-sm btn-link">Delete</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
+</ng-template>
