@@ -13,19 +13,19 @@
 
 <clr-tabs>
   <clr-tab>
+    <button clrTabLink>Datagrid</button>
+    <clr-tab-content *clrIfActive>
+      <seed-product-datagrid class="p-4"></seed-product-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+
+  <clr-tab>
     <button clrTabLink>Card List</button>
     <clr-tab-content *clrIfActive>
       <seed-product-card-list
         class="p-4"
         (deleteEvent)="openDeleteDialog = true"
       ></seed-product-card-list>
-    </clr-tab-content>
-  </clr-tab>
-
-  <clr-tab>
-    <button clrTabLink>Datagrid</button>
-    <clr-tab-content *clrIfActive>
-      <seed-product-datagrid class="p-4"></seed-product-datagrid>
     </clr-tab-content>
   </clr-tab>
 

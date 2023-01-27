@@ -1,1 +1,41 @@
-<p>product-datagrid works!</p>
+<clr-alert
+  class="mb-4"
+  [clrAlertType]="'danger'"
+  *ngIf="error$ | async as error"
+>
+  <clr-alert-item>
+    <span class="alert-text">
+      {{ error.message }}
+    </span>
+  </clr-alert-item>
+</clr-alert>
+
+<clr-datagrid
+  class="min-h-[200px]"
+  (clrDgRefresh)="refresh($event)"
+  [clrDgLoading]="(loading$ | async) === true"
+>
+  <clr-dg-column>Product ID</clr-dg-column>
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'productionDate'">Production date</clr-dg-column>
+  <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
+
+  <clr-dg-placeholder>No data found</clr-dg-placeholder>
+
+  <clr-dg-row *ngFor="let product of products$ | async">
+    <clr-dg-cell>{{ product.id }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.name }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.productionDate | date }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.description }}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+    {{ 30 }} items
+    <clr-dg-pagination
+      #pagination
+      [clrDgPageSize]="10"
+      [clrDgTotalItems]="(products$ | async)?.length || 0"
+    ></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
