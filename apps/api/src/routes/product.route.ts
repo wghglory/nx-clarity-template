@@ -20,11 +20,12 @@ productRouter.get('/:id', (req, res) => {
 });
 
 productRouter.post('/', (req, res) => {
-  const name = req.body.name;
+  const { name, description } = req.body;
 
   const product = {
     id: Date.now().toString(),
     name,
+    description,
     productionDate: new Date().toISOString(),
   } as Product;
 

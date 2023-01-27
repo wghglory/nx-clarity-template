@@ -12,14 +12,17 @@
 </div>
 
 <ul *ngIf="products$ | async as products; else loadingOrError">
-  <li *ngFor="let product of products" class="space-x-6">
-    <input
-      type="radio"
-      name="product"
-      [(ngModel)]="selectedProduct"
-      [value]="product"
-    />
-    <a [routerLink]="product.id">{{ product.name }}</a>
+  <li *ngFor="let product of products" class="flex">
+    <div class="w-1/4 space-x-6">
+      <input
+        type="radio"
+        name="product"
+        [(ngModel)]="selectedProduct"
+        [value]="product"
+      />
+      <a [routerLink]="product.id">{{ product.name }}</a>
+    </div>
+    <p cds-text class="w-3/4">{{ product.description }}</p>
   </li>
 </ul>
 

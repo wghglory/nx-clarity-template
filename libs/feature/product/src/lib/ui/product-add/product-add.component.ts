@@ -25,6 +25,7 @@ export class ProductAddComponent {
 
   productForm = new FormGroup({
     name: new FormControl('', { nonNullable: true }),
+    description: new FormControl('', { nonNullable: true }),
   });
 
   private saveAction = new Subject<void>();
