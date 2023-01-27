@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
-import { BehaviorSubject, catchError, EMPTY, Subject, switchMap } from 'rxjs';
+import { catchError, EMPTY, Subject, switchMap } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { ProductStateService } from '../../services/product-state.service';
 import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 
 @Component({
@@ -27,13 +28,16 @@ import { ProductDeleteComponent } from '../product-delete/product-delete.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductListComponent {
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private productStateService: ProductStateService
+  ) {}
 
-  private refreshAction = new BehaviorSubject<void>(undefined);
+  selectedProduct: Product | undefined;
 
   error$ = new Subject<HttpErrorResponse>();
 
-  products$ = this.refreshAction.pipe(
+  products$ = this.productStateService.refreshAction$.pipe(
     switchMap(() => {
       return this.productService.products$;
     }),
@@ -43,11 +47,7 @@ export class ProductListComponent {
     })
   );
 
-  openDeleteDialog = false;
-  selectedProduct: Product | undefined = undefined;
-
-  refreshData() {
-    this.selectedProduct = undefined;
-    this.refreshAction.next();
+  selectProduct(product: Product) {
+    this.productStateService.selectProduct(product);
   }
 }

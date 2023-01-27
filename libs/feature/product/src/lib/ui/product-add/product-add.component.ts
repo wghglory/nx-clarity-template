@@ -30,10 +30,10 @@ export class ProductAddComponent {
 
   private saveAction = new Subject<void>();
 
-  private errorSub = new Subject<HttpErrorResponse | null>();
-  error$ = this.errorSub.asObservable();
-  private loadingSub = new Subject<boolean>();
-  loading$ = this.loadingSub.asObservable();
+  private errorSource = new Subject<HttpErrorResponse | null>();
+  error$ = this.errorSource.asObservable();
+  private loadingSource = new Subject<boolean>();
+  loading$ = this.loadingSource.asObservable();
 
   add$ = this.saveAction.pipe(
     switchMap(() =>
@@ -41,9 +41,9 @@ export class ProductAddComponent {
         tap(() => {
           this.goBack();
         }),
-        finalize(() => this.loadingSub.next(false)),
+        finalize(() => this.loadingSource.next(false)),
         catchError((err) => {
-          this.errorSub.next(err);
+          this.errorSource.next(err);
           return EMPTY;
         })
       )
@@ -51,8 +51,8 @@ export class ProductAddComponent {
   );
 
   save() {
-    this.loadingSub.next(true);
-    this.errorSub.next(null);
+    this.loadingSource.next(true);
+    this.errorSource.next(null);
     this.saveAction.next();
   }
 

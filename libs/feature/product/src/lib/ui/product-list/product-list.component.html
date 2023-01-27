@@ -1,23 +1,12 @@
-<h2>Products</h2>
-
-<div class="my-6 space-x-2">
-  <button
-    class="btn btn-secondary"
-    [disabled]="!selectedProduct"
-    (click)="openDeleteDialog = true"
-  >
-    Delete
-  </button>
-  <button class="btn btn-secondary" [routerLink]="'@/add'">Add</button>
-</div>
-
 <ul *ngIf="products$ | async as products; else loadingOrError">
   <li *ngFor="let product of products" class="flex">
-    <div class="w-1/4 space-x-6">
+    <div class="flex w-1/4 space-x-6">
       <input
+        clrRadio
         type="radio"
         name="product"
         [(ngModel)]="selectedProduct"
+        (ngModelChange)="selectProduct(selectedProduct!)"
         [value]="product"
       />
       <a [routerLink]="product.id">{{ product.name }}</a>
@@ -29,10 +18,3 @@
 <ng-template #loadingOrError>
   <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
 </ng-template>
-
-<seed-product-delete
-  *ngIf="openDeleteDialog && selectedProduct"
-  [product]="selectedProduct"
-  [(open)]="openDeleteDialog"
-  (refreshData)="refreshData()"
-></seed-product-delete>

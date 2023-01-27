@@ -1,7 +1,10 @@
 <clr-modal [(clrModalOpen)]="open" (clrModalOpenChange)="close()">
   <h3 class="modal-title">Delete Product</h3>
   <div class="modal-body">
-    <p cds-text>Are you sure to delete {{ product.name }}?</p>
+    <p cds-text>
+      Are you sure to delete
+      {{ (productStateService.selectedProduct$ | async)?.name }}?
+    </p>
 
     <clr-alert [clrAlertType]="'danger'" *ngIf="error$ | async as error">
       <clr-alert-item>

@@ -8,10 +8,19 @@ import {
   Output,
 } from '@angular/core';
 import { ClarityModule } from '@clr/angular';
-import { catchError, EMPTY, finalize, Subject, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  EMPTY,
+  filter,
+  finalize,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 
-import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { ProductStateService } from './../../services/product-state.service';
 
 @Component({
   selector: 'seed-product-delete',
@@ -22,35 +31,37 @@ import { ProductService } from '../../services/product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDeleteComponent {
-  constructor(private productService: ProductService) {}
-
-  @Input() product: Product = {} as Product;
+  constructor(
+    private productService: ProductService,
+    public productStateService: ProductStateService
+  ) {}
 
   @Input() open = false;
   @Output() openChange = new EventEmitter<boolean>();
 
-  @Output() refreshData = new EventEmitter();
-
   private confirmAction = new Subject<void>();
 
-  private errorSub = new Subject<HttpErrorResponse | null>();
-  error$ = this.errorSub.asObservable();
-  private loadingSub = new Subject<boolean>();
-  loading$ = this.loadingSub.asObservable();
+  private errorSource = new Subject<HttpErrorResponse | null>();
+  error$ = this.errorSource.asObservable();
+  private loadingSource = new Subject<boolean>();
+  loading$ = this.loadingSource.asObservable();
 
-  delete$ = this.confirmAction.pipe(
-    switchMap(() =>
-      this.productService.deleteProduct(this.product.id).pipe(
-        finalize(() => this.loadingSub.next(false)),
+  delete$ = combineLatest([
+    this.productStateService.selectedProduct$.pipe(filter(Boolean)),
+    this.confirmAction,
+  ]).pipe(
+    switchMap(([product, _]) =>
+      this.productService.deleteProduct(product.id).pipe(
+        finalize(() => this.loadingSource.next(false)),
         catchError((err) => {
-          this.errorSub.next(err);
+          this.errorSource.next(err);
           return EMPTY;
         })
       )
     ),
     tap(() => {
       this.close();
-      this.refreshData.emit();
+      this.productStateService.refreshList();
     })
   );
 
@@ -59,8 +70,8 @@ export class ProductDeleteComponent {
   }
 
   confirm() {
-    this.loadingSub.next(true);
-    this.errorSub.next(null);
+    this.loadingSource.next(true);
+    this.errorSource.next(null);
     this.confirmAction.next();
   }
 }

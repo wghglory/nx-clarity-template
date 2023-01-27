@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 
-import { ProductListComponent } from './ui/product-list/product-list.component';
+import { ProductShellComponent } from './ui/product-shell/product-shell.component';
 
 export const productRoutes: Route[] = [
-  { path: '', component: ProductListComponent },
+  { path: '', component: ProductShellComponent },
   {
     path: ':id',
     loadComponent: () =>
