@@ -10,7 +10,9 @@
       <p cds-text>{{ product.description }}</p>
     </div>
     <div class="card-footer">
-      <button class="btn btn-sm btn-link">Delete</button>
+      <button class="btn btn-sm btn-link" (click)="deleteProduct(product)">
+        Delete
+      </button>
     </div>
   </div>
 </div>

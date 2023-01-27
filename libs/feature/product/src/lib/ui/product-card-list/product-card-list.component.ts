@@ -1,11 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
 import { catchError, EMPTY, Subject, switchMap } from 'rxjs';
 
+import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductStateService } from '../../services/product-state.service';
 
@@ -23,6 +29,8 @@ export class ProductCardListComponent {
     private productStateService: ProductStateService
   ) {}
 
+  @Output() deleteEvent = new EventEmitter();
+
   error$ = new Subject<HttpErrorResponse>();
 
   products$ = this.productStateService.refreshAction$.pipe(
@@ -34,4 +42,9 @@ export class ProductCardListComponent {
       return EMPTY;
     })
   );
+
+  deleteProduct(product: Product) {
+    this.productStateService.selectProduct(product);
+    this.deleteEvent.emit(); // no need to consider refresh data after deletion. That's reactive programming's advantage, the action stream detect and react.
+  }
 }
