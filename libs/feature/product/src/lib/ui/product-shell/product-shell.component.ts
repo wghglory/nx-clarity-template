@@ -5,8 +5,10 @@ import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 
 import { ProductStateService } from '../../services/product-state.service';
+import { ProductCardListComponent } from '../product-card-list/product-card-list.component';
+import { ProductDatagridComponent } from '../product-datagrid/product-datagrid.component';
 import { ProductDeleteComponent } from '../product-delete/product-delete.component';
-import { ProductListComponent } from './../product-list/product-list.component';
+import { ProductListComponent } from '../product-list/product-list.component';
 
 @Component({
   selector: 'seed-product-shell',
@@ -17,6 +19,8 @@ import { ProductListComponent } from './../product-list/product-list.component';
     ClarityModule,
     FormsModule,
     ProductListComponent,
+    ProductCardListComponent,
+    ProductDatagridComponent,
     ProductDeleteComponent,
   ],
   templateUrl: './product-shell.component.html',
