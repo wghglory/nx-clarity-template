@@ -17,7 +17,7 @@ export class ProductStateService {
     this.refreshAction.next();
   }
 
-  selectProduct = (product: Product) => {
+  selectProduct = (product: Product | null) => {
     this.selectedProductSource.next(product);
   };
 }

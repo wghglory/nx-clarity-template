@@ -61,6 +61,7 @@ export class ProductDeleteComponent {
     ),
     tap(() => {
       this.close();
+      this.productStateService.selectProduct(null);
       this.productStateService.refreshList();
     })
   );
