@@ -34,7 +34,7 @@ import { isEmpty, pickBy } from 'lodash';
 
 const DEFAULT_PAGE_SIZE = 10;
 
-export function stateHandler(state?: ClrDatagridStateInterface) {
+export function stateHandler(state: ClrDatagridStateInterface | null) {
   if (isEmpty(state)) {
     return {
       page: 1,

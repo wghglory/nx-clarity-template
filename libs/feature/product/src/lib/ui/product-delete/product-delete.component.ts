@@ -50,16 +50,17 @@ export class ProductDeleteComponent {
     this.productStateService.selectedProduct$.pipe(filter(Boolean)),
     this.confirmAction,
   ]).pipe(
-    switchMap(([product, _]) =>
-      this.productService.deleteProduct(product.id).pipe(
+    switchMap(([product, _]) => {
+      return this.productService.deleteProduct(product.id).pipe(
         finalize(() => this.loadingSource.next(false)),
         catchError((err) => {
           this.errorSource.next(err);
           return EMPTY;
         })
-      )
-    ),
+      );
+    }),
     tap(() => {
+      // delete successful actions
       this.close();
       this.productStateService.selectProduct(null);
       this.productStateService.refreshList();
