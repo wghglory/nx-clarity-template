@@ -47,7 +47,7 @@ export class ProductDeleteComponent {
   loading$ = this.loadingSource.asObservable();
 
   delete$ = combineLatest([
-    this.productStateService.selectedProduct$.pipe(filter(Boolean)),
+    this.productStateService.selectedItem$.pipe(filter(Boolean)),
     this.saveAction,
   ]).pipe(
     switchMap(([product, _]) => {
@@ -62,7 +62,7 @@ export class ProductDeleteComponent {
     tap(() => {
       // delete successful actions
       this.close();
-      this.productStateService.selectProduct(null);
+      this.productStateService.selectItem(null);
       this.productStateService.refreshList();
     })
   );

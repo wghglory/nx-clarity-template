@@ -55,7 +55,7 @@ export class ProductEditComponent implements OnInit {
   loading$ = this.loadingSource.asObservable();
 
   edit$ = combineLatest([
-    this.productStateService.selectedProduct$.pipe(filter(Boolean)),
+    this.productStateService.selectedItem$.pipe(filter(Boolean)),
     this.saveAction,
   ]).pipe(
     switchMap(([product, _]) => {
@@ -72,7 +72,7 @@ export class ProductEditComponent implements OnInit {
     tap(() => {
       // delete successful actions
       this.close();
-      this.productStateService.selectProduct(null);
+      this.productStateService.selectItem(null);
       this.productStateService.refreshList();
     })
   );
@@ -89,7 +89,7 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit() {
     // init form
-    this.productStateService.selectedProduct$
+    this.productStateService.selectedItem$
       .pipe(filter(Boolean), take(1))
       .subscribe((product) => {
         this.productForm.setValue({

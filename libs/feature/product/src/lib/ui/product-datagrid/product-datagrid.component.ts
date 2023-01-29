@@ -39,12 +39,12 @@ export class ProductDatagridComponent {
     private productService: ProductService,
     public productStateService: ProductStateService
   ) {}
-  selectedProduct: Product | undefined;
+  selectedItem: Product | undefined;
 
   private loadingSource = new BehaviorSubject<boolean>(true);
   loading$ = this.loadingSource.asObservable();
-  private errorSub = new Subject<HttpErrorResponse>();
-  error$ = this.errorSub.asObservable();
+  private errorSource = new Subject<HttpErrorResponse>();
+  error$ = this.errorSource.asObservable();
 
   private dgSource = new BehaviorSubject<ClrDatagridStateInterface | null>(
     null
@@ -74,7 +74,7 @@ export class ProductDatagridComponent {
           this.loadingSource.next(false);
         }),
         catchError((err) => {
-          this.errorSub.next(err);
+          this.errorSource.next(err);
           return EMPTY;
         })
       );

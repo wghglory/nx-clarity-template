@@ -44,7 +44,7 @@ export class ProductCardListComponent {
   );
 
   deleteProduct(product: Product) {
-    this.productStateService.selectProduct(product);
+    this.productStateService.selectItem(product);
     this.deleteEvent.emit();
   }
 }

@@ -3,14 +3,14 @@
 <div class="my-2">
   <button
     class="btn btn-secondary"
-    [disabled]="(productStateService.selectedProduct$ | async) === null"
+    [disabled]="(productStateService.selectedItem$ | async) === null"
     (click)="openDeleteDialog = true"
   >
     Delete
   </button>
   <button
     class="btn btn-secondary"
-    [disabled]="(productStateService.selectedProduct$ | async) === null"
+    [disabled]="(productStateService.selectedItem$ | async) === null"
     (click)="openEditDialog = true"
   >
     Edit

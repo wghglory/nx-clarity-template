@@ -10,14 +10,14 @@ export class ProductStateService {
   private refreshAction = new BehaviorSubject<void>(undefined);
   refreshAction$ = this.refreshAction.asObservable();
 
-  private selectedProductSource = new BehaviorSubject<Product | null>(null); // product-delete *ngIf initializes late, so using Subject won't work.
-  selectedProduct$ = this.selectedProductSource.asObservable();
+  private selectedItemSource = new BehaviorSubject<Product | null>(null); // product-delete *ngIf initializes late, so using Subject won't work.
+  selectedItem$ = this.selectedItemSource.asObservable();
 
   refreshList() {
     this.refreshAction.next();
   }
 
-  selectProduct(product: Product | null) {
-    this.selectedProductSource.next(product);
+  selectItem(product: Product | null) {
+    this.selectedItemSource.next(product);
   }
 }

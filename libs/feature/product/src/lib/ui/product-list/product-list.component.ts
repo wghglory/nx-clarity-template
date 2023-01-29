@@ -33,7 +33,7 @@ export class ProductListComponent {
     private productStateService: ProductStateService
   ) {}
 
-  selectedProduct: Product | undefined;
+  selectedItem: Product | undefined;
 
   error$ = new Subject<HttpErrorResponse>();
 
@@ -47,7 +47,7 @@ export class ProductListComponent {
     })
   );
 
-  selectProduct(product: Product) {
-    this.productStateService.selectProduct(product);
+  selectItem(product: Product) {
+    this.productStateService.selectItem(product);
   }
 }

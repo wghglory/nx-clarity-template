@@ -5,8 +5,8 @@
         clrRadio
         type="radio"
         name="product"
-        [(ngModel)]="selectedProduct"
-        (ngModelChange)="selectProduct(selectedProduct!)"
+        [(ngModel)]="selectedItem"
+        (ngModelChange)="selectItem(selectedItem!)"
         [value]="product"
       />
       <a [routerLink]="product.id">{{ product.name }}</a>
