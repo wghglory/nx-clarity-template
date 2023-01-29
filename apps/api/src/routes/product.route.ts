@@ -36,6 +36,7 @@ productRouter.patch('/:id', (req, res) => {
   const found = products.values.find((p) => p.id === id);
 
   if (found) {
+    found.name = name;
     found.entity.name = name;
     found.entity.description = description;
     return res.send(found);

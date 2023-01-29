@@ -37,7 +37,12 @@ export class ProductEditComponent implements OnInit {
     private productService: ProductService,
     public productStateService: ProductStateService
   ) {}
-  productForm: FormGroup | undefined;
+  productForm = new FormGroup({
+    name: new FormControl('', { nonNullable: true }),
+    description: new FormControl('', {
+      nonNullable: true,
+    }),
+  });
 
   @Input() open = false;
   @Output() openChange = new EventEmitter<boolean>();
@@ -55,7 +60,7 @@ export class ProductEditComponent implements OnInit {
   ]).pipe(
     switchMap(([product, _]) => {
       return this.productService
-        .updateProduct(product.id, this.productForm?.value)
+        .updateProduct(product.id, this.productForm.value)
         .pipe(
           finalize(() => this.loadingSource.next(false)),
           catchError((err) => {
@@ -87,11 +92,9 @@ export class ProductEditComponent implements OnInit {
     this.productStateService.selectedProduct$
       .pipe(filter(Boolean), take(1))
       .subscribe((product) => {
-        this.productForm = new FormGroup({
-          name: new FormControl(product.name, { nonNullable: true }),
-          description: new FormControl(product.description, {
-            nonNullable: true,
-          }),
+        this.productForm.setValue({
+          name: product.name,
+          description: product.description,
         });
       });
   }
