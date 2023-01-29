@@ -45,6 +45,6 @@ export class ProductCardListComponent {
 
   deleteProduct(product: Product) {
     this.productStateService.selectProduct(product);
-    this.deleteEvent.emit(); // no need to consider refresh data after deletion. That's reactive programming's advantage, the action stream detect and react.
+    this.deleteEvent.emit();
   }
 }

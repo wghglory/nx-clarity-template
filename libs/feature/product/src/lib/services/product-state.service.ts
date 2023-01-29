@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { Product } from '../models/product';
 
@@ -17,7 +17,7 @@ export class ProductStateService {
     this.refreshAction.next();
   }
 
-  selectProduct = (product: Product | null) => {
+  selectProduct(product: Product | null) {
     this.selectedProductSource.next(product);
-  };
+  }
 }
