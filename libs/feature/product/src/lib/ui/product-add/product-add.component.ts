@@ -17,11 +17,7 @@ import { ProductService } from '../../services/product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAddComponent {
-  constructor(
-    public productService: ProductService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(public productService: ProductService, private router: Router, private route: ActivatedRoute) {}
 
   productForm = new FormGroup({
     name: new FormControl('', { nonNullable: true }),

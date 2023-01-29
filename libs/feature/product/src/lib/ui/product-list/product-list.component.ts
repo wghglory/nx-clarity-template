@@ -15,23 +15,13 @@ import { ProductDeleteComponent } from '../product-delete/product-delete.compone
 @Component({
   selector: 'seed-product-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ClarityModule,
-    FormsModule,
-    LoadingOrErrorComponent,
-    ProductDeleteComponent,
-  ],
+  imports: [CommonModule, RouterModule, ClarityModule, FormsModule, LoadingOrErrorComponent, ProductDeleteComponent],
   templateUrl: './product-list.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductListComponent {
-  constructor(
-    private productService: ProductService,
-    private productStateService: ProductStateService
-  ) {}
+  constructor(private productService: ProductService, private productStateService: ProductStateService) {}
 
   selectedItem: Product | undefined;
 

@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
@@ -24,10 +19,7 @@ import { ProductStateService } from '../../services/product-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardListComponent {
-  constructor(
-    private productService: ProductService,
-    private productStateService: ProductStateService
-  ) {}
+  constructor(private productService: ProductService, private productStateService: ProductStateService) {}
 
   @Output() deleteEvent = new EventEmitter();
 

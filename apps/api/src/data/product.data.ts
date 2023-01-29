@@ -2,15 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Product } from '@seed/feature/product';
 import { RDEList, RDEValue } from '@seed/rde';
 
-const createProduct = ({
-  name,
-  description,
-  state,
-}: {
-  name: string;
-  description?: string;
-  state: boolean;
-}): RDEValue<Product> => {
+const createProduct = ({ name, description, state }: { name: string; description?: string; state: boolean }): RDEValue<Product> => {
   const id = `urn:vcloud:entity:vmware:product:${faker.datatype.uuid()}`;
   return {
     id,
@@ -25,16 +17,12 @@ const createProduct = ({
       state: state ? 'success' : 'error',
       state_reason: state ? '' : 'some reasons',
     },
-    state: state
-      ? 'RESOLVED'
-      : faker.helpers.arrayElement(['RESOLUTION_ERROR', 'PRE_CREATED']),
+    state: state ? 'RESOLVED' : faker.helpers.arrayElement(['RESOLUTION_ERROR', 'PRE_CREATED']),
     owner: {
       name: 'admin',
       id: `urn:vcloud:user:${faker.datatype.uuid()}`,
     },
-    org: faker.helpers.arrayElement([
-      { name: 'System', id: faker.datatype.uuid() },
-    ]),
+    org: faker.helpers.arrayElement([{ name: 'System', id: faker.datatype.uuid() }]),
   };
 };
 

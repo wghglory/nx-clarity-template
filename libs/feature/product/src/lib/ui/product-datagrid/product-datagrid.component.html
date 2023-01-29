@@ -1,8 +1,4 @@
-<clr-alert
-  class="mb-4"
-  [clrAlertType]="'danger'"
-  *ngIf="error$ | async as error"
->
+<clr-alert class="mb-4" [clrAlertType]="'danger'" *ngIf="error$ | async as error">
   <clr-alert-item>
     <span class="alert-text">
       {{ error.message }}
@@ -24,10 +20,7 @@
 
   <clr-dg-placeholder>No data found</clr-dg-placeholder>
 
-  <clr-dg-row
-    *ngFor="let product of (products$ | async)?.values"
-    [clrDgItem]="product.entity"
-  >
+  <clr-dg-row *ngFor="let product of (products$ | async)?.values" [clrDgItem]="product.entity">
     <clr-dg-cell>{{ product.id }}</clr-dg-cell>
     <clr-dg-cell>
       <a [routerLink]="product.id">{{ product.name }}</a>
@@ -37,12 +30,7 @@
   </clr-dg-row>
 
   <clr-dg-footer>
-    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
-    {{ 30 }} items
-    <clr-dg-pagination
-      #pagination
-      [clrDgPageSize]="10"
-      [clrDgTotalItems]="(products$ | async)?.resultTotal || 0"
-    ></clr-dg-pagination>
+    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of {{ 30 }} items
+    <clr-dg-pagination #pagination [clrDgPageSize]="10" [clrDgTotalItems]="(products$ | async)?.resultTotal || 0"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>

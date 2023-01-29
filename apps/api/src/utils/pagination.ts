@@ -1,9 +1,4 @@
-import {
-  ExpressionNode,
-  getSelector,
-  getValue,
-  isComparisonNode,
-} from '@rsql/ast';
+import { ExpressionNode, getSelector, getValue, isComparisonNode } from '@rsql/ast';
 import { parse } from '@rsql/parser';
 import { RDEEntityState, RDEList, RDEValue } from '@seed/rde';
 import { Request, Response } from 'express';
@@ -41,10 +36,7 @@ export function getPagedRdeList<T extends RDEEntityState>({
     pageCount,
     page,
     pageSize, // display how many data per page, datagrid row count
-    values:
-      pageSize === 0
-        ? rdeList.values
-        : rdeList.values.slice((page - 1) * pageSize, page * pageSize),
+    values: pageSize === 0 ? rdeList.values : rdeList.values.slice((page - 1) * pageSize, page * pageSize),
     associations: null,
   };
 }
@@ -56,27 +48,18 @@ export function getPagedRdeList<T extends RDEEntityState>({
  * @param res express response
  * @param originalRdeList original RDE list
  */
-export const handlePagedRequest = <T extends RDEEntityState>(
-  req: Request,
-  res: Response,
-  originalRdeList: RDEList<T>
-) => {
+export const handlePagedRequest = <T extends RDEEntityState>(req: Request, res: Response, originalRdeList: RDEList<T>) => {
   const page = Number(req.query.page) || 1;
   const pageSize = Number(req.query.pageSize ?? '25'); // pageSize 0 means get all data
   const filter = (req.query.filter || '') as string;
 
   if (filter === '') {
-    return res.send(
-      getPagedRdeList({ rdeList: originalRdeList, page, pageSize })
-    );
+    return res.send(getPagedRdeList({ rdeList: originalRdeList, page, pageSize }));
   }
 
   const filterMap = getFilterMap(filter);
 
-  const filteredValues = filterByTemplate(
-    originalRdeList.values,
-    filterMap
-  ) as RDEValue<T>[];
+  const filteredValues = filterByTemplate(originalRdeList.values, filterMap) as RDEValue<T>[];
 
   const rdeList = { ...originalRdeList, values: filteredValues };
 
@@ -126,10 +109,7 @@ const getFilterMap = (filter: string) => {
  * @param template object returned by getFilterMap function
  * @returns filtered array
  */
-function filterByTemplate(
-  source: Array<Record<string, any>>,
-  template: Record<string, string | string[]>
-) {
+function filterByTemplate(source: Array<Record<string, any>>, template: Record<string, string | string[]>) {
   return filter(source, (el) =>
     // use == instead of === cuz object value could be number, but getFilterMap always return string
     Object.keys(template).every((propertyName) => {

@@ -11,19 +11,13 @@ const convert = (value) => {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
-    ...createGlobPatternsForDependencies(__dirname),
-  ],
+  content: [join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'), ...createGlobPatternsForDependencies(__dirname)],
   theme: {
     extend: {
       spacing: () => ({
         ...Array.from({ length: 96 }, (_, index) => index * 0.5)
           .filter((i) => i)
-          .reduce(
-            (acc, i) => ({ ...acc, [i]: `${i / (baseFontSize / 4)}rem` }),
-            {}
-          ),
+          .reduce((acc, i) => ({ ...acc, [i]: `${i / (baseFontSize / 4)}rem` }), {}),
       }),
       fontSize: {
         xs: [

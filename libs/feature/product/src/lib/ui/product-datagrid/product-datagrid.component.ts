@@ -35,10 +35,8 @@ import { ProductStateService } from '../../services/product-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDatagridComponent {
-  constructor(
-    private productService: ProductService,
-    public productStateService: ProductStateService
-  ) {}
+  constructor(private productService: ProductService, public productStateService: ProductStateService) {}
+
   selectedItem: Product | undefined;
 
   private loadingSource = new BehaviorSubject<boolean>(true);
@@ -46,9 +44,7 @@ export class ProductDatagridComponent {
   private errorSource = new Subject<HttpErrorResponse>();
   error$ = this.errorSource.asObservable();
 
-  private dgSource = new BehaviorSubject<ClrDatagridStateInterface | null>(
-    null
-  );
+  private dgSource = new BehaviorSubject<ClrDatagridStateInterface | null>(null);
   dgState$ = this.dgSource.pipe(
     // prepare old and new states filters in order to delay
     // since behaviorSubject and clrDatagrid emits null and null, no need to `startWith(null)`
@@ -84,7 +80,7 @@ export class ProductDatagridComponent {
 
   // will be called right after initially datagrid loads data
   // 1st: BehaviorSubject emit null
-  // 2nd: emit default state: { "page": { "from": -1,"to": -1,"size": 10,"current": 1 }}
+  // 2nd: emit default state: { "page": { "from": -1, "to": -1, "size": 10, "current": 1 }}
   // every filter stroke will also trigger it
   refresh(state: ClrDatagridStateInterface) {
     this.dgSource.next(state);

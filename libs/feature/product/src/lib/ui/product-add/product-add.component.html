@@ -10,11 +10,7 @@
     <input clrControl formControlName="description" />
   </clr-control-container>
 
-  <clr-alert
-    class="mt-6"
-    [clrAlertType]="'danger'"
-    *ngIf="error$ | async as error"
-  >
+  <clr-alert class="mt-6" [clrAlertType]="'danger'" *ngIf="error$ | async as error">
     <clr-alert-item>
       <span class="alert-text">
         {{ error.message }}
@@ -23,16 +19,8 @@
   </clr-alert>
 
   <div class="mt-6">
-    <button class="btn btn-outline" type="button" (click)="goBack()">
-      Cancel
-    </button>
-    <button
-      class="btn btn-primary"
-      [clrLoading]="loading$ | async"
-      type="submit"
-    >
-      Submit
-    </button>
+    <button class="btn btn-outline" type="button" (click)="goBack()">Cancel</button>
+    <button class="btn btn-primary" [clrLoading]="loading$ | async" type="submit">Submit</button>
   </div>
 </form>
 

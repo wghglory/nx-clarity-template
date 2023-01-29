@@ -1,18 +1,10 @@
 <h2 class="!mt-0">Products</h2>
 
 <div class="my-2">
-  <button
-    class="btn btn-secondary"
-    [disabled]="(productStateService.selectedItem$ | async) === null"
-    (click)="openDeleteDialog = true"
-  >
+  <button class="btn btn-secondary" [disabled]="(productStateService.selectedItem$ | async) === null" (click)="openDeleteDialog = true">
     Delete
   </button>
-  <button
-    class="btn btn-secondary"
-    [disabled]="(productStateService.selectedItem$ | async) === null"
-    (click)="openEditDialog = true"
-  >
+  <button class="btn btn-secondary" [disabled]="(productStateService.selectedItem$ | async) === null" (click)="openEditDialog = true">
     Edit
   </button>
   <button class="btn btn-secondary" [routerLink]="'@/add'">Add</button>
@@ -29,10 +21,7 @@
   <clr-tab>
     <button clrTabLink>Card List</button>
     <clr-tab-content *clrIfActive>
-      <seed-product-card-list
-        class="p-4"
-        (deleteEvent)="openDeleteDialog = true"
-      ></seed-product-card-list>
+      <seed-product-card-list class="p-4" (deleteEvent)="openDeleteDialog = true"></seed-product-card-list>
     </clr-tab-content>
   </clr-tab>
 
@@ -44,8 +33,6 @@
   </clr-tab>
 </clr-tabs>
 
-<seed-product-delete *ngIf="openDeleteDialog" [(open)]="openDeleteDialog">
-</seed-product-delete>
+<seed-product-delete *ngIf="openDeleteDialog" [(open)]="openDeleteDialog"> </seed-product-delete>
 
-<seed-product-edit *ngIf="openEditDialog" [(open)]="openEditDialog">
-</seed-product-edit>
+<seed-product-edit *ngIf="openEditDialog" [(open)]="openEditDialog"> </seed-product-edit>

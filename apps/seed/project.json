@@ -16,10 +16,7 @@
         "tsConfig": "apps/seed/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/seed/src/favicon.ico", "apps/seed/src/assets"],
-        "styles": [
-          "node_modules/@clr/ui/clr-ui.min.css",
-          "apps/seed/src/styles.scss"
-        ],
+        "styles": ["node_modules/@clr/ui/clr-ui.min.css", "apps/seed/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

@@ -1,26 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
-import {
-  catchError,
-  combineLatest,
-  EMPTY,
-  filter,
-  finalize,
-  Subject,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
+import { catchError, combineLatest, EMPTY, filter, finalize, Subject, switchMap, take, tap } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
 import { ProductStateService } from '../../services/product-state.service';
@@ -33,10 +16,7 @@ import { ProductStateService } from '../../services/product-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductEditComponent implements OnInit {
-  constructor(
-    private productService: ProductService,
-    public productStateService: ProductStateService
-  ) {}
+  constructor(private productService: ProductService, public productStateService: ProductStateService) {}
   productForm = new FormGroup({
     name: new FormControl('', { nonNullable: true }),
     description: new FormControl('', {
@@ -54,20 +34,15 @@ export class ProductEditComponent implements OnInit {
   private loadingSource = new Subject<boolean>();
   loading$ = this.loadingSource.asObservable();
 
-  edit$ = combineLatest([
-    this.productStateService.selectedItem$.pipe(filter(Boolean)),
-    this.saveAction,
-  ]).pipe(
+  edit$ = combineLatest([this.productStateService.selectedItem$.pipe(filter(Boolean)), this.saveAction]).pipe(
     switchMap(([product, _]) => {
-      return this.productService
-        .updateProduct(product.id, this.productForm.value)
-        .pipe(
-          finalize(() => this.loadingSource.next(false)),
-          catchError((err) => {
-            this.errorSource.next(err);
-            return EMPTY;
-          })
-        );
+      return this.productService.updateProduct(product.id, this.productForm.value).pipe(
+        finalize(() => this.loadingSource.next(false)),
+        catchError((err) => {
+          this.errorSource.next(err);
+          return EMPTY;
+        })
+      );
     }),
     tap(() => {
       // delete successful actions
@@ -89,13 +64,11 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit() {
     // init form
-    this.productStateService.selectedItem$
-      .pipe(filter(Boolean), take(1))
-      .subscribe((product) => {
-        this.productForm.setValue({
-          name: product.name,
-          description: product.description,
-        });
+    this.productStateService.selectedItem$.pipe(filter(Boolean), take(1)).subscribe((product) => {
+      this.productForm.setValue({
+        name: product.name,
+        description: product.description,
       });
+    });
   }
 }

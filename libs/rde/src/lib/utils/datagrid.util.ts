@@ -47,10 +47,7 @@ export function stateHandler(state: ClrDatagridStateInterface | null) {
   const { sortAsc, sortDesc } = sortHandler(state);
   const filter = filterHandler(state);
 
-  return pickBy<PageQuery>(
-    { page, pageSize, filter, sortAsc, sortDesc },
-    Boolean
-  );
+  return pickBy<PageQuery>({ page, pageSize, filter, sortAsc, sortDesc }, Boolean);
 }
 
 function pageHandler(state: ClrDatagridStateInterface<any>) {
