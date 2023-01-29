@@ -30,6 +30,19 @@ productRouter.post('/', (req, res) => {
   return res.send(product);
 });
 
+productRouter.patch('/:id', (req, res) => {
+  const { name, description } = req.body;
+  const id = req.params.id;
+  const found = products.values.find((p) => p.id === id);
+
+  if (found) {
+    found.entity.name = name;
+    found.entity.description = description;
+    return res.send(found);
+  }
+  return res.status(404).send({ message: 'not found' });
+});
+
 productRouter.delete('/:id', (req, res) => {
   const id = req.params.id;
   const index = products.values.findIndex((p) => p.id === id);

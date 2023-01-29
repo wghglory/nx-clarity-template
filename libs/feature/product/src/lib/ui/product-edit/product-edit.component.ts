@@ -5,8 +5,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import {
   catchError,
@@ -16,25 +18,26 @@ import {
   finalize,
   Subject,
   switchMap,
+  take,
   tap,
 } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
-import { ProductStateService } from './../../services/product-state.service';
+import { ProductStateService } from '../../services/product-state.service';
 
 @Component({
-  selector: 'seed-product-delete',
+  selector: 'seed-product-edit',
   standalone: true,
-  imports: [CommonModule, ClarityModule],
-  templateUrl: './product-delete.component.html',
-  styles: [],
+  imports: [CommonModule, ClarityModule, ReactiveFormsModule],
+  templateUrl: './product-edit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDeleteComponent {
+export class ProductEditComponent implements OnInit {
   constructor(
     private productService: ProductService,
     public productStateService: ProductStateService
   ) {}
+  productForm: FormGroup | undefined;
 
   @Input() open = false;
   @Output() openChange = new EventEmitter<boolean>();
@@ -46,18 +49,20 @@ export class ProductDeleteComponent {
   private loadingSource = new Subject<boolean>();
   loading$ = this.loadingSource.asObservable();
 
-  delete$ = combineLatest([
+  edit$ = combineLatest([
     this.productStateService.selectedProduct$.pipe(filter(Boolean)),
     this.saveAction,
   ]).pipe(
     switchMap(([product, _]) => {
-      return this.productService.deleteProduct(product.id).pipe(
-        finalize(() => this.loadingSource.next(false)),
-        catchError((err) => {
-          this.errorSource.next(err);
-          return EMPTY;
-        })
-      );
+      return this.productService
+        .updateProduct(product.id, this.productForm?.value)
+        .pipe(
+          finalize(() => this.loadingSource.next(false)),
+          catchError((err) => {
+            this.errorSource.next(err);
+            return EMPTY;
+          })
+        );
     }),
     tap(() => {
       // delete successful actions
@@ -75,5 +80,19 @@ export class ProductDeleteComponent {
     this.loadingSource.next(true);
     this.errorSource.next(null);
     this.saveAction.next();
+  }
+
+  ngOnInit() {
+    // init form
+    this.productStateService.selectedProduct$
+      .pipe(filter(Boolean), take(1))
+      .subscribe((product) => {
+        this.productForm = new FormGroup({
+          name: new FormControl(product.name, { nonNullable: true }),
+          description: new FormControl(product.description, {
+            nonNullable: true,
+          }),
+        });
+      });
   }
 }

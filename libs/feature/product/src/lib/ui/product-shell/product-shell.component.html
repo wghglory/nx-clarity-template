@@ -1,12 +1,19 @@
 <h2 class="!mt-0">Products</h2>
 
-<div class="my-2 space-x-2">
+<div class="my-2">
   <button
     class="btn btn-secondary"
     [disabled]="(productStateService.selectedProduct$ | async) === null"
     (click)="openDeleteDialog = true"
   >
     Delete
+  </button>
+  <button
+    class="btn btn-secondary"
+    [disabled]="(productStateService.selectedProduct$ | async) === null"
+    (click)="openEditDialog = true"
+  >
+    Edit
   </button>
   <button class="btn btn-secondary" [routerLink]="'@/add'">Add</button>
 </div>
@@ -37,7 +44,8 @@
   </clr-tab>
 </clr-tabs>
 
-<seed-product-delete
-  *ngIf="openDeleteDialog"
-  [(open)]="openDeleteDialog"
-></seed-product-delete>
+<seed-product-delete *ngIf="openDeleteDialog" [(open)]="openDeleteDialog">
+</seed-product-delete>
+
+<seed-product-edit *ngIf="openEditDialog" [(open)]="openEditDialog">
+</seed-product-edit>

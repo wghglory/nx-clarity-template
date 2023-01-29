@@ -30,6 +30,16 @@ export class ProductService {
     return this.http.post<RDEValue<Product>>(`/api/products`, payload);
   }
 
+  updateProduct(
+    id: string,
+    payload: Partial<{
+      name: string;
+      description: string;
+    }>
+  ) {
+    return this.http.patch<RDEValue<Product>>(`/api/products/${id}`, payload);
+  }
+
   deleteProduct(id: string) {
     return this.http.delete<void>(`/api/products/${id}`);
   }
