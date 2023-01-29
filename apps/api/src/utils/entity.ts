@@ -1,4 +1,4 @@
-import { RDEEntityState, RDEList, RDEValue } from '@seed/shared/models';
+import { RDEEntityState, RDEList, RDEValue } from '@seed/rde';
 
 /**
  * Add a RDEValue<T> to existed RDEList<T>
