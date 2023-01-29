@@ -29,7 +29,9 @@
     [clrDgItem]="product"
   >
     <clr-dg-cell>{{ product.id }}</clr-dg-cell>
-    <clr-dg-cell>{{ product.name }}</clr-dg-cell>
+    <clr-dg-cell>
+      <a [routerLink]="product.id">{{ product.name }}</a>
+    </clr-dg-cell>
     <clr-dg-cell>{{ product.entity.productionDate | date }}</clr-dg-cell>
     <clr-dg-cell>{{ product.entity.description }}</clr-dg-cell>
   </clr-dg-row>
