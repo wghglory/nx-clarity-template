@@ -1,28 +1,58 @@
 import { faker } from '@faker-js/faker';
 import { Product } from '@seed/feature/product';
+import { RDEList, RDEValue } from '@seed/shared/models';
 
-const initial: Product[] = [
-  {
-    id: '1fddfdf',
-    name: 'Basketball',
-    productionDate: new Date().toISOString(),
-    description: 'NBA basketball that Jordan played with.',
-  },
-  {
-    id: '2898ufg',
-    name: 'Football',
-    productionDate: new Date('2020-01-04').toISOString(),
-    description: 'Kick the ball!',
-  },
-];
-
-const data = new Array(45).fill(1).map(() => {
+const createProduct = ({
+  name,
+  description,
+  state,
+}: {
+  name: string;
+  description?: string;
+  state: boolean;
+}): RDEValue<Product> => {
+  const id = `urn:vcloud:entity:vmware:product:${faker.datatype.uuid()}`;
   return {
-    id: faker.datatype.uuid(),
-    name: faker.commerce.productName(),
-    productionDate: faker.date.past().toDateString(),
-    description: faker.lorem.sentence(20),
-  } as Product;
-});
+    id,
+    entityType: 'urn:vcloud:type:vmware:product:1.0.0',
+    name: name,
+    externalId: null,
+    entity: {
+      id,
+      name,
+      description,
+      productionDate: faker.date.past().toDateString(),
+      state: state ? 'success' : 'error',
+      state_reason: state ? '' : 'some reasons',
+    },
+    state: state
+      ? 'RESOLVED'
+      : faker.helpers.arrayElement(['RESOLUTION_ERROR', 'PRE_CREATED']),
+    owner: {
+      name: 'admin',
+      id: `urn:vcloud:user:${faker.datatype.uuid()}`,
+    },
+    org: faker.helpers.arrayElement([
+      { name: 'System', id: faker.datatype.uuid() },
+    ]),
+  };
+};
 
-export const products = [...initial, ...data];
+const productsNum = faker.datatype.number({ min: 40, max: 100 });
+
+const products: RDEList<Product> = {
+  resultTotal: productsNum,
+  pageCount: productsNum,
+  page: 1,
+  pageSize: 25,
+  associations: null,
+  values: new Array(productsNum).fill(1).map(
+    (_) => <RDEValue<Product>>createProduct({
+        name: faker.commerce.productName(),
+        description: faker.lorem.sentence(20),
+        state: faker.datatype.boolean(),
+      })
+  ),
+};
+
+export { createProduct, products };

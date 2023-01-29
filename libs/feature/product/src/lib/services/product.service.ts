@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PageQuery } from '@seed/shared/models';
+import { PageQuery, RDEList, RDEValue } from '@seed/shared/models';
 
 import { Product } from '../models/product';
 
@@ -10,16 +10,16 @@ import { Product } from '../models/product';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  products$ = this.http.get<Product[]>('/api/products');
+  products$ = this.http.get<RDEList<Product>>('/api/products');
 
   getProducts(params: Partial<PageQuery>) {
-    return this.http.get<Product[]>('/api/products', {
+    return this.http.get<RDEList<Product>>('/api/products', {
       params,
     });
   }
 
   getProduct(id: string) {
-    return this.http.get<Product>(`/api/products/${id}`);
+    return this.http.get<RDEValue<Product>>(`/api/products/${id}`);
   }
 
   addProduct(
@@ -27,7 +27,7 @@ export class ProductService {
       name: string;
     }>
   ) {
-    return this.http.post<Product>(`/api/products`, payload);
+    return this.http.post<RDEValue<Product>>(`/api/products`, payload);
   }
 
   deleteProduct(id: string) {

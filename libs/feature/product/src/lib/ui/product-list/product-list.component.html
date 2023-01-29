@@ -1,4 +1,4 @@
-<ul *ngIf="products$ | async as products; else loadingOrError">
+<ul *ngIf="(products$ | async)?.values as products; else loadingOrError">
   <li *ngFor="let product of products" class="flex">
     <div class="flex w-1/4 space-x-6">
       <input
@@ -11,7 +11,7 @@
       />
       <a [routerLink]="product.id">{{ product.name }}</a>
     </div>
-    <p cds-text class="w-3/4">{{ product.description }}</p>
+    <p cds-text class="w-3/4">{{ product.entity.description }}</p>
   </li>
 </ul>
 

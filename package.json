@@ -52,6 +52,8 @@
     "@nrwl/nx-cloud": "latest",
     "@nrwl/webpack": "15.6.1",
     "@nrwl/workspace": "15.6.1",
+    "@rsql/ast": "^1.5.2",
+    "@rsql/parser": "^1.5.2",
     "@testing-library/angular": "^13.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/express": "4.17.13",

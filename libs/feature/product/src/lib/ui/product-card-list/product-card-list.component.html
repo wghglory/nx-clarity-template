@@ -2,15 +2,18 @@
   *ngIf="products$ | async as products; else loadingOrError"
   class="grid grid-cols-3 gap-6"
 >
-  <div *ngFor="let product of products" class="card mt-0 flex flex-col">
+  <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
     <h3 class="card-header">
       <a [routerLink]="product.id">{{ product.name }}</a>
     </h3>
     <div class="card-block flex-1">
-      <p cds-text>{{ product.description }}</p>
+      <p cds-text>{{ product.entity.description }}</p>
     </div>
     <div class="card-footer">
-      <button class="btn btn-sm btn-link" (click)="deleteProduct(product)">
+      <button
+        class="btn btn-sm btn-link"
+        (click)="deleteProduct(product.entity)"
+      >
         Delete
       </button>
     </div>

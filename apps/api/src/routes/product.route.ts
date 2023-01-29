@@ -1,17 +1,18 @@
-import { Product } from '@seed/feature/product';
 import express from 'express';
 
-import { products } from '../data/product.data';
+import { createProduct, products } from '../data/product.data';
+import { addItemToList, removeItemFromList } from '../utils/entity';
+import { handlePagedRequest } from '../utils/pagination';
 
 export const productRouter = express.Router();
 
 productRouter.get('/', (req, res) => {
-  res.send(products);
+  handlePagedRequest(req, res, products);
 });
 
 productRouter.get('/:id', (req, res) => {
   const id = req.params.id;
-  const found = products.find((p) => p.id === id);
+  const found = products.values.find((p) => p.id === id);
 
   if (found) {
     return res.send(found);
@@ -22,24 +23,19 @@ productRouter.get('/:id', (req, res) => {
 productRouter.post('/', (req, res) => {
   const { name, description } = req.body;
 
-  const product = {
-    id: Date.now().toString(),
-    name,
-    description,
-    productionDate: new Date().toISOString(),
-  } as Product;
+  const product = createProduct({ name, description, state: true });
 
-  products.unshift(product);
+  addItemToList(product, products);
 
   return res.send(product);
 });
 
 productRouter.delete('/:id', (req, res) => {
   const id = req.params.id;
-  const index = products.findIndex((p) => p.id === id);
+  const index = products.values.findIndex((p) => p.id === id);
 
   if (index > -1) {
-    products.splice(index, 1);
+    removeItemFromList(id, products);
     return res.status(204).send();
   }
   return res.status(404).send({ message: 'not found' });

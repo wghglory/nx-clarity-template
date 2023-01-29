@@ -24,11 +24,14 @@
 
   <clr-dg-placeholder>No data found</clr-dg-placeholder>
 
-  <clr-dg-row *ngFor="let product of products$ | async" [clrDgItem]="product">
+  <clr-dg-row
+    *ngFor="let product of (products$ | async)?.values"
+    [clrDgItem]="product"
+  >
     <clr-dg-cell>{{ product.id }}</clr-dg-cell>
     <clr-dg-cell>{{ product.name }}</clr-dg-cell>
-    <clr-dg-cell>{{ product.productionDate | date }}</clr-dg-cell>
-    <clr-dg-cell>{{ product.description }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.entity.productionDate | date }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.entity.description }}</clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -37,7 +40,7 @@
     <clr-dg-pagination
       #pagination
       [clrDgPageSize]="10"
-      [clrDgTotalItems]="(products$ | async)?.length || 0"
+      [clrDgTotalItems]="(products$ | async)?.resultTotal || 0"
     ></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
