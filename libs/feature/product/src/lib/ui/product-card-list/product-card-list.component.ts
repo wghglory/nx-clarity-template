@@ -5,7 +5,8 @@ import { RouterModule } from '@angular/router';
 import { ClarityModule, ClrDatagridStateInterface } from '@clr/angular';
 import { stateHandler } from '@seed/rde';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
-import { BehaviorSubject, catchError, EMPTY, Subject, switchMap } from 'rxjs';
+import { startWithTap } from '@seed/shared/utils';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, merge, pairwise, scan, startWith, Subject, switchMap } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
@@ -24,8 +25,6 @@ export class ProductCardListComponent {
 
   @Output() deleteEvent = new EventEmitter();
 
-  error$ = new Subject<HttpErrorResponse>();
-
   // products$ = this.productStateService.refreshAction$.pipe(
   //   switchMap(() => {
   //     return this.productService.products$;
@@ -36,18 +35,41 @@ export class ProductCardListComponent {
   //   })
   // );
 
+  private errorSource = new Subject<HttpErrorResponse>();
+  error$ = this.errorSource.asObservable();
+
+  private loadingSource = new Subject<boolean>();
+  loading$ = this.loadingSource.asObservable();
+
   private pageSource = new BehaviorSubject<ClrDatagridStateInterface>({ page: { current: 1, size: 9 } });
   page$ = this.pageSource.asObservable();
 
+  // loadMore --> change page --> get paged products --> scan
   products$ = this.page$.pipe(
     switchMap((pageInfo) => {
       const params = stateHandler(pageInfo);
-      return this.productService.getProducts(params);
+      return this.productService.getProducts(params).pipe(
+        startWithTap(() => this.loadingSource.next(true)),
+        finalize(() => this.loadingSource.next(false)),
+        catchError((err) => {
+          this.errorSource.next(err);
+          return EMPTY;
+        })
+      );
+    }),
+    scan((acc, curr) => {
+      return { ...acc, values: [...acc.values, ...curr.values] };
     })
   );
 
   deleteProduct(product: Product) {
     this.productStateService.selectItem(product);
     this.deleteEvent.emit();
+  }
+
+  loadMore() {
+    const prevPage = this.pageSource.value;
+    // eslint-disable-next-line
+    this.pageSource.next({ page: { current: prevPage.page?.current! + 1, size: prevPage.page?.size! } });
   }
 }

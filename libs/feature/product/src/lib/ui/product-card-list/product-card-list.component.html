@@ -13,7 +13,7 @@
     </div>
   </div>
   <div *ngIf="products.pageCount > products.page" class="my-6 text-center">
-    <button class="btn btn-primary">load more</button>
+    <button class="btn btn-primary" (click)="loadMore()" [clrLoading]="loading$ | async">load more</button>
   </div>
 </ng-container>
 
