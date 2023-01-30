@@ -82,6 +82,7 @@ export class ProductCardListComponent {
     withLatestFrom(this.currentPage$),
     // based on current page, reset
     // https://stackblitz.com/edit/rxjs-search-offset-k2p6ps?file=src%2Fapp%2Fapp.component.ts
+    // another approach: https://codesandbox.io/s/clear-scan-qsbeuc?file=/src/app/app.component.ts
     scan((acc, [rde, page]) => {
       return page === 1 ? rde : { ...acc, values: [...acc.values, ...rde.values], page };
     }, {} as RDEList<Product>)
