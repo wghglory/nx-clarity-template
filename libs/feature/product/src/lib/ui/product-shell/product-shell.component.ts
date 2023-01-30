@@ -9,6 +9,7 @@ import { ProductCardListComponent } from '../product-card-list/product-card-list
 import { ProductDatagridComponent } from '../product-datagrid/product-datagrid.component';
 import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 import { ProductEditComponent } from '../product-edit/product-edit.component';
+import { ProductInfiniteScrollComponent } from '../product-infinite-scroll/product-infinite-scroll.component';
 import { ProductListComponent } from '../product-list/product-list.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { ProductListComponent } from '../product-list/product-list.component';
     ProductDatagridComponent,
     ProductDeleteComponent,
     ProductEditComponent,
+    ProductInfiniteScrollComponent,
   ],
   templateUrl: './product-shell.component.html',
   styles: [],
