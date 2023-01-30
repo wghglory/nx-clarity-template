@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClarityModule, ClrDatagridStateInterface } from '@clr/angular';
-import { stateHandler } from '@seed/rde';
+import { ClarityModule } from '@clr/angular';
+import { cardStateHandler } from '@seed/rde';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
 import { startWithTap } from '@seed/shared/utils';
 import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, merge, pairwise, scan, startWith, Subject, switchMap } from 'rxjs';
@@ -35,24 +35,21 @@ export class ProductCardListComponent {
   //   })
   // );
 
-  private errorSource = new Subject<HttpErrorResponse>();
-  error$ = this.errorSource.asObservable();
+  pageSize = 9;
 
-  private loadingSource = new Subject<boolean>();
-  loading$ = this.loadingSource.asObservable();
-
-  private pageSource = new BehaviorSubject<ClrDatagridStateInterface>({ page: { current: 1, size: 9 } });
-  page$ = this.pageSource.asObservable();
+  error$ = new Subject<HttpErrorResponse>();
+  loading$ = new Subject<boolean>();
+  currentPage$ = new BehaviorSubject<number>(1);
 
   // loadMore --> change page --> get paged products --> scan
-  products$ = this.page$.pipe(
-    switchMap((pageInfo) => {
-      const params = stateHandler(pageInfo);
+  products$ = this.currentPage$.pipe(
+    switchMap((page) => {
+      const params = cardStateHandler({ current: page });
       return this.productService.getProducts(params).pipe(
-        startWithTap(() => this.loadingSource.next(true)),
-        finalize(() => this.loadingSource.next(false)),
+        startWithTap(() => this.loading$.next(true)),
+        finalize(() => this.loading$.next(false)),
         catchError((err) => {
-          this.errorSource.next(err);
+          this.error$.next(err);
           return EMPTY;
         })
       );
@@ -68,8 +65,7 @@ export class ProductCardListComponent {
   }
 
   loadMore() {
-    const prevPage = this.pageSource.value;
-    // eslint-disable-next-line
-    this.pageSource.next({ page: { current: prevPage.page?.current! + 1, size: prevPage.page?.size! } });
+    this.currentPage$.next(this.currentPage$.value + 1);
+  }
   }
 }
