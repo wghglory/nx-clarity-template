@@ -1,4 +1,12 @@
-<ng-container *ngIf="products$ | async as products; else loadingOrError">
+<select (change)="filterByProductName($any($event.target).value)" class="my-4">
+  <option value="">Select name filter</option>
+  <option value="woo">woo</option>
+  <option value="so">so</option>
+  <option value="co">co</option>
+  <option value="cotton">cotton</option>
+</select>
+
+<ng-container *ngIf="productsWithFilter$ | async as products; else loadingOrError">
   <div class="grid grid-cols-3 gap-6">
     <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
       <h3 class="card-header">
