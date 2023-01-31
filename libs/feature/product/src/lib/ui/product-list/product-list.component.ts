@@ -10,12 +10,11 @@ import { catchError, EMPTY, Subject, switchMap } from 'rxjs';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductStateService } from '../../services/product-state.service';
-import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 
 @Component({
   selector: 'seed-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, ClarityModule, FormsModule, LoadingOrErrorComponent, ProductDeleteComponent],
+  imports: [CommonModule, RouterModule, ClarityModule, FormsModule, LoadingOrErrorComponent, ProductListComponent],
   templateUrl: './product-list.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

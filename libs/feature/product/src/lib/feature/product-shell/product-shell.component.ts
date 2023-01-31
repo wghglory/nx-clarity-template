@@ -5,12 +5,12 @@ import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 
 import { ProductStateService } from '../../services/product-state.service';
-import { ProductCardListComponent } from '../product-card-list/product-card-list.component';
-import { ProductDatagridComponent } from '../product-datagrid/product-datagrid.component';
-import { ProductDeleteComponent } from '../product-delete/product-delete.component';
-import { ProductEditComponent } from '../product-edit/product-edit.component';
-import { ProductInfiniteScrollComponent } from '../product-infinite-scroll/product-infinite-scroll.component';
-import { ProductListComponent } from '../product-list/product-list.component';
+import { ProductCardListComponent } from '../../ui/product-card-list/product-card-list.component';
+import { ProductDatagridComponent } from '../../ui/product-datagrid/product-datagrid.component';
+import { ProductDeleteComponent } from '../../ui/product-delete/product-delete.component';
+import { ProductEditComponent } from '../../ui/product-edit/product-edit.component';
+import { ProductInfiniteScrollComponent } from '../../ui/product-infinite-scroll/product-infinite-scroll.component';
+import { ProductListComponent } from '../../ui/product-list/product-list.component';
 
 @Component({
   selector: 'seed-product-shell',

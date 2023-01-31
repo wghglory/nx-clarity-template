@@ -5,7 +5,7 @@ import { ClarityModule } from '@clr/angular';
 import { catchError, combineLatest, EMPTY, filter, finalize, Subject, switchMap, tap } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
-import { ProductStateService } from './../../services/product-state.service';
+import { ProductStateService } from '../../services/product-state.service';
 
 @Component({
   selector: 'seed-product-delete',
