@@ -1,36 +1,35 @@
-<select (change)="filterByProductName($any($event.target).value)" class="my-4">
-  <option value="">Select name filter</option>
-  <option value="woo">woo</option>
-  <option value="so">so</option>
-  <option value="co">co</option>
-  <option value="cotton">cotton</option>
-</select>
+<div
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  [scrollWindow]="false"
+  (scrolled)="loadMore(products.pageCount)"
+  class="h-full overflow-scroll"
+  *ngIf="productsWithFilter$ | async as products; else loadingOrError"
+>
+  <select (change)="filterByProductName($any($event.target).value)" class="my-4">
+    <option value="">Select name filter</option>
+    <option value="woo">woo</option>
+    <option value="so">so</option>
+    <option value="co">co</option>
+    <option value="cotton">cotton</option>
+  </select>
 
-<ng-container *ngIf="productsWithFilter$ | async as products; else loadingOrError">
-  <div
-    infiniteScroll
-    [infiniteScrollDistance]="2"
-    [infiniteScrollThrottle]="50"
-    [scrollWindow]="false"
-    (scrolled)="loadMore(products.pageCount)"
-    class="h-4/5 overflow-scroll"
-  >
-    <div class="grid grid-cols-3 gap-6">
-      <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
-        <h3 class="card-header">
-          <a [routerLink]="product.id">{{ product.name }}</a>
-        </h3>
-        <div class="card-block flex-1">
-          <p cds-text>{{ product.entity.description }}</p>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-sm btn-link" (click)="deleteProduct(product.entity)">Delete</button>
-        </div>
+  <div class="grid grid-cols-3 gap-6">
+    <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
+      <h3 class="card-header">
+        <a [routerLink]="product.id">{{ product.name }}</a>
+      </h3>
+      <div class="card-block flex-1">
+        <p cds-text>{{ product.entity.description }}</p>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-link" (click)="deleteProduct(product.entity)">Delete</button>
       </div>
     </div>
-    <div class="spinner mx-auto my-4 block" *ngIf="loading$ | async">loading...</div>
   </div>
-</ng-container>
+  <div class="spinner mx-auto my-4 block" *ngIf="loading$ | async">loading...</div>
+</div>
 
 <ng-template #loadingOrError>
   <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
