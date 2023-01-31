@@ -34,3 +34,5 @@
 <ng-template #loadingOrError>
   <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
 </ng-template>
+
+<ng-container *ngIf="refresh$ | async"></ng-container>

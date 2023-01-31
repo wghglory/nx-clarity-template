@@ -6,7 +6,7 @@ import { ClarityModule } from '@clr/angular';
 import { CardState, cardStateHandler, RDEList } from '@seed/rde';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
 import { startWithTap } from '@seed/shared/utils';
-import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, scan, Subject, switchMap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, scan, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
@@ -58,6 +58,12 @@ export class ProductCardListComponent {
     }),
     scan((acc, curr) => {
       return { ...acc, values: [...acc.values, ...curr.values] };
+    })
+  );
+
+  refresh$ = this.productStateService.refreshAction$.pipe(
+    tap(() => {
+      this.currentPage$.next(1);
     })
   );
 

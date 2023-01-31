@@ -7,7 +7,7 @@ import { CardState, cardStateHandler, RDEList } from '@seed/rde';
 import { LoadingOrErrorComponent } from '@seed/shared/ui';
 import { startWithTap } from '@seed/shared/utils';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { BehaviorSubject, catchError, concatMap, EMPTY, finalize, scan, Subject, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, EMPTY, finalize, scan, Subject, tap, withLatestFrom } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
@@ -31,6 +31,12 @@ export class ProductInfiniteScrollComponent {
   loading$ = new Subject<boolean>();
 
   state$ = new BehaviorSubject<CardState>({ current: 1, filters: [] });
+
+  refresh$ = this.productStateService.refreshAction$.pipe(
+    tap(() => {
+      this.state$.next({ ...this.state$.value, current: 1 });
+    })
+  );
 
   // loadMore --> change page --> get paged products --> scan
   products$ = this.state$.pipe(
