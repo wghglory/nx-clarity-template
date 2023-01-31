@@ -7,7 +7,7 @@
         name="product"
         [(ngModel)]="selectedItem"
         (ngModelChange)="selectItem(selectedItem!)"
-        [value]="product"
+        [value]="product.entity"
       />
       <a [routerLink]="product.id">{{ product.name }}</a>
     </div>
