@@ -9,7 +9,7 @@ import { BehaviorSubject, catchError, EMPTY, Subject, switchMap } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
-import { ProductDeleteComponent } from '../product-delete/product-delete.component';
+import { ProductDeleteComponent } from '../../ui/product-delete/product-delete.component';
 
 @Component({
   selector: 'seed-product-list',
