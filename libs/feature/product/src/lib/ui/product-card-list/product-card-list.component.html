@@ -1,12 +1,17 @@
-<select (change)="filterByProductName($any($event.target).value)" class="my-4">
-  <option value="">Select name filter</option>
-  <option value="woo">woo</option>
-  <option value="so">so</option>
-  <option value="co">co</option>
-  <option value="cotton">cotton</option>
-</select>
+<div class="my-4">
+  <label for="name-filter" class="mr-6 font-semibold">Name Filter</label>
+  <div class="clr-select-wrapper">
+    <select id="name-filter" class="clr-select" (change)="filterByProductName($any($event.target).value)">
+      <option value="">Select name filter</option>
+      <option value="woo">woo</option>
+      <option value="so">so</option>
+      <option value="co">co</option>
+      <option value="cotton">cotton</option>
+    </select>
+  </div>
+</div>
 
-<ng-container *ngIf="productsWithFilter$ | async as products; else loadingOrError">
+<ng-container *ngIf="productsWithFilter$ | async as products; else initialLoading">
   <div class="grid grid-cols-3 gap-6">
     <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
       <h3 class="card-header">
@@ -25,8 +30,16 @@
   </div>
 </ng-container>
 
-<ng-template #loadingOrError>
-  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
+<clr-alert class="mb-4" [clrAlertType]="'danger'" *ngIf="error$ | async as error">
+  <clr-alert-item>
+    <span class="alert-text" role="alert">
+      {{ error.message }}
+    </span>
+  </clr-alert-item>
+</clr-alert>
+
+<ng-template #initialLoading>
+  <seed-spinner></seed-spinner>
 </ng-template>
 
 <ng-container *ngIf="refresh$ | async"></ng-container>

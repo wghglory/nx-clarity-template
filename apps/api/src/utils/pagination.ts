@@ -1,6 +1,6 @@
 import { ExpressionNode, getSelector, getValue, isComparisonNode } from '@rsql/ast';
 import { parse } from '@rsql/parser';
-import { RDEEntityState, RDEList, RDEValue } from '@seed/rde';
+import { RDEEntityState, RDEList, RDEValue } from '@seed/shared/models';
 import { Request, Response } from 'express';
 import { filter, get } from 'lodash';
 
@@ -110,9 +110,9 @@ const getFilterMap = (filter: string) => {
  * @returns filtered array
  */
 function filterByTemplate(source: Array<Record<string, any>>, template: Record<string, string | string[]>) {
-  return filter(source, (el) =>
+  return filter(source, el =>
     // use == instead of === cuz object value could be number, but getFilterMap always return string
-    Object.keys(template).every((propertyName) => {
+    Object.keys(template).every(propertyName => {
       // replace datagrid filter * with empty, e.g. *derek* --> derek
       const term = (template[propertyName] as string).replace(/\*/g, '');
 
@@ -140,6 +140,6 @@ function filterByTemplate(source: Array<Record<string, any>>, template: Record<s
 
       // e.g. entityValue is a object/array
       return false;
-    })
+    }),
   );
 }

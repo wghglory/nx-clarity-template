@@ -5,7 +5,6 @@ import { ClarityModule } from '@clr/angular';
 import { catchError, combineLatest, EMPTY, filter, finalize, Subject, switchMap, tap } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
-import { ProductStateService } from '../../services/product-state.service';
 
 @Component({
   selector: 'seed-product-delete',
@@ -16,7 +15,7 @@ import { ProductStateService } from '../../services/product-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDeleteComponent {
-  constructor(private productService: ProductService, public productStateService: ProductStateService) {}
+  constructor(public productService: ProductService) {}
 
   @Input() open = false;
   @Output() openChange = new EventEmitter<boolean>();
@@ -28,22 +27,22 @@ export class ProductDeleteComponent {
   private loadingSource = new Subject<boolean>();
   loading$ = this.loadingSource.asObservable();
 
-  delete$ = combineLatest([this.productStateService.selectedItem$.pipe(filter(Boolean)), this.saveAction]).pipe(
+  delete$ = combineLatest([this.productService.selectedItem$.pipe(filter(Boolean)), this.saveAction]).pipe(
     switchMap(([product, _]) => {
       return this.productService.deleteProduct(product.id).pipe(
         finalize(() => this.loadingSource.next(false)),
-        catchError((err) => {
+        catchError(err => {
           this.errorSource.next(err);
           return EMPTY;
-        })
+        }),
       );
     }),
     tap(() => {
       // delete successful actions
       this.close();
-      this.productStateService.selectItem(null);
-      this.productStateService.refreshList();
-    })
+      this.productService.selectItem(null);
+      this.productService.refreshList();
+    }),
   );
 
   close() {

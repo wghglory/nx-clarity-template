@@ -12,7 +12,7 @@ productRouter.get('/', (req, res) => {
 
 productRouter.get('/:id', (req, res) => {
   const id = req.params.id;
-  const found = products.values.find((p) => p.id === id);
+  const found = products.values.find(p => p.id === id);
 
   if (found) {
     return res.send(found);
@@ -33,20 +33,21 @@ productRouter.post('/', (req, res) => {
 productRouter.patch('/:id', (req, res) => {
   const { name, description } = req.body;
   const id = req.params.id;
-  const found = products.values.find((p) => p.id === id);
+  const found = products.values.find(p => p.id === id);
 
   if (found) {
     found.name = name;
     found.entity.name = name;
     found.entity.description = description;
-    return res.send(found);
+    res.send(found);
+  } else {
+    res.status(404).send({ message: 'not found' });
   }
-  return res.status(404).send({ message: 'not found' });
 });
 
 productRouter.delete('/:id', (req, res) => {
   const id = req.params.id;
-  const index = products.values.findIndex((p) => p.id === id);
+  const index = products.values.findIndex(p => p.id === id);
 
   if (index > -1) {
     removeItemFromList(id, products);

@@ -1,21 +1,35 @@
+<div class="my-4">
+  <label for="name-filter" class="mr-6 font-semibold">Name Filter</label>
+  <div class="clr-select-wrapper">
+    <select id="name-filter" class="clr-select" (change)="filterByProductName($any($event.target).value)">
+      <option value="">Select name filter</option>
+      <option value="woo">woo</option>
+      <option value="so">so</option>
+      <option value="co">co</option>
+      <option value="cotton">cotton</option>
+    </select>
+  </div>
+</div>
+
+<clr-alert class="mb-4" [clrAlertType]="'danger'" *ngIf="error$ | async as error">
+  <clr-alert-item>
+    <span class="alert-text" role="alert">
+      {{ error.message }}
+    </span>
+  </clr-alert-item>
+</clr-alert>
+
 <div
   infiniteScroll
   [infiniteScrollDistance]="2"
   [infiniteScrollThrottle]="50"
   [scrollWindow]="false"
   (scrolled)="loadMore(products.pageCount)"
-  class="h-full overflow-scroll"
-  *ngIf="productsWithFilter$ | async as products; else loadingOrError"
+  class="h-fit max-h-[600px] overflow-y-auto"
+  *ngIf="productsWithFilter$ | async as products; else initialLoading"
 >
-  <select (change)="filterByProductName($any($event.target).value)" class="my-4">
-    <option value="">Select name filter</option>
-    <option value="woo">woo</option>
-    <option value="so">so</option>
-    <option value="co">co</option>
-    <option value="cotton">cotton</option>
-  </select>
-
-  <div class="grid grid-cols-3 gap-6">
+  <!-- -mb-[1px] to make sure the parent div is always scrollable -->
+  <div class="-mb-[1px] grid grid-cols-3 gap-6">
     <div *ngFor="let product of products.values" class="card mt-0 flex flex-col">
       <h3 class="card-header">
         <a [routerLink]="product.id">{{ product.name }}</a>
@@ -31,8 +45,8 @@
   <div class="spinner mx-auto my-4 block" *ngIf="loading$ | async">loading...</div>
 </div>
 
-<ng-template #loadingOrError>
-  <seed-loading-or-error [error]="error$ | async"></seed-loading-or-error>
+<ng-template #initialLoading>
+  <seed-spinner></seed-spinner>
 </ng-template>
 
 <ng-container *ngIf="refresh$ | async"></ng-container>

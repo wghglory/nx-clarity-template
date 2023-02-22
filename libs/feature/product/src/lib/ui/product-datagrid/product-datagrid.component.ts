@@ -3,8 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule, ClrDatagridStateInterface } from '@clr/angular';
-import { stateHandler } from '@seed/rde';
-import { startWithTap } from '@seed/shared/utils';
+import { startWithTap, stateHandler } from '@seed/shared/utils';
 import { isEqual } from 'lodash';
 import {
   BehaviorSubject,
@@ -25,7 +24,6 @@ import {
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
-import { ProductStateService } from '../../services/product-state.service';
 
 @Component({
   selector: 'seed-product-datagrid',
@@ -35,13 +33,13 @@ import { ProductStateService } from '../../services/product-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDatagridComponent {
-  constructor(private productService: ProductService, public productStateService: ProductStateService) {}
+  constructor(public productService: ProductService) {}
 
   selectedItem: Product | undefined;
 
   private loadingSource = new BehaviorSubject<boolean>(true);
   loading$ = this.loadingSource.asObservable();
-  private errorSource = new Subject<HttpErrorResponse>();
+  private errorSource = new Subject<HttpErrorResponse | null>();
   error$ = this.errorSource.asObservable();
 
   private dgSource = new BehaviorSubject<ClrDatagridStateInterface | null>(null);
@@ -55,27 +53,30 @@ export class ProductDatagridComponent {
     }),
     map(([prev, curr]) => curr),
     // if prev and curr state are the same, no need to emit. e.g. filter was 'a', user type 'aa' and quickly rollback to 'a'
-    distinctUntilChanged(isEqual)
+    distinctUntilChanged(isEqual),
   ) as Observable<ClrDatagridStateInterface>;
 
   products$ = combineLatest([
     this.dgState$,
-    this.productStateService.refreshAction$, // actions like successful deletion to refresh the data
+    this.productService.refreshAction$, // actions like successful deletion to refresh the data
   ]).pipe(
     switchMap(([state]) => {
       const params = stateHandler(state);
       return this.productService.getProducts(params).pipe(
-        startWithTap(() => this.loadingSource.next(true)),
+        startWithTap(() => {
+          this.loadingSource.next(true);
+          this.errorSource.next(null);
+        }),
         finalize(() => {
           this.loadingSource.next(false);
         }),
-        catchError((err) => {
+        catchError(err => {
           this.errorSource.next(err);
           return EMPTY;
-        })
+        }),
       );
     }),
-    share() // avoid datagrid async pipe twice 2 subscription AND delete
+    share(), // avoid datagrid async pipe twice 2 subscription AND delete
   );
 
   // will be called right after initially datagrid loads data

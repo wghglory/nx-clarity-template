@@ -3,12 +3,12 @@
   <div class="modal-body">
     <p cds-text>
       Are you sure to delete
-      {{ (productStateService.selectedItem$ | async)?.name }}?
+      {{ (productService.selectedItem$ | async)?.name }}?
     </p>
 
     <clr-alert [clrAlertType]="'danger'" *ngIf="error$ | async as error">
       <clr-alert-item>
-        <span class="alert-text">
+        <span class="alert-text" role="alert">
           {{ error.message }}
         </span>
       </clr-alert-item>

@@ -1,4 +1,4 @@
-import { RDEEntityState, RDEList, RDEValue } from '@seed/rde';
+import { RDEEntityState, RDEList, RDEValue } from '@seed/shared/models';
 
 /**
  * Add a RDEValue<T> to existed RDEList<T>
@@ -19,7 +19,7 @@ export function addItemToList<T extends RDEEntityState>(item: RDEValue<T>, list:
  * @param list RDE list
  */
 export function removeItemFromList<T extends RDEEntityState>(id: string, list: RDEList<T>) {
-  const index = list.values.findIndex((v) => v.id === id);
+  const index = list.values.findIndex(v => v.id === id);
 
   if (index > -1) {
     list.values.splice(index, 1);
@@ -32,7 +32,7 @@ export function removeItemFromList<T extends RDEEntityState>(id: string, list: R
  * Returns the RESOLVED and success entities in the RDEList<T>.
  */
 export function filterResolvedAndSuccessEntity<T extends RDEEntityState>(list: RDEList<T>) {
-  return list.values.filter((v) => v.entity.state === 'success' && v.state === 'RESOLVED');
+  return list.values.filter(v => v.entity.state === 'success' && v.state === 'RESOLVED');
 }
 
 /**
@@ -40,7 +40,7 @@ export function filterResolvedAndSuccessEntity<T extends RDEEntityState>(list: R
  */
 export function filterRDEListByOrgId<T extends RDEEntityState>(list: RDEList<T>, orgId: string | undefined) {
   if (orgId) {
-    return { ...list, values: list.values.filter((v) => v.org.id === orgId) };
+    return { ...list, values: list.values.filter(v => v.org.id === orgId) };
   } else {
     return list;
   }

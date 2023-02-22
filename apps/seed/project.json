@@ -6,15 +6,22 @@
   "prefix": "seed",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "customWebpackConfig": {
+          "path": "apps/seed/webpack.config.js"
+        },
+        "allowedCommonJsDependencies": ["lodash"],
         "outputPath": "dist/apps/seed",
         "index": "apps/seed/src/index.html",
         "main": "apps/seed/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/seed/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/styles/src/lib/scss"]
+        },
         "assets": ["apps/seed/src/favicon.ico", "apps/seed/src/assets"],
         "styles": ["node_modules/@clr/ui/clr-ui.min.css", "apps/seed/src/styles.scss"],
         "scripts": []
@@ -47,7 +54,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "seed:build:production"

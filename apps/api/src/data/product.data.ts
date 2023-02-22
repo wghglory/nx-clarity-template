@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Product } from '@seed/feature/product';
-import { RDEList, RDEValue } from '@seed/rde';
+import { RDEList, RDEValue } from '@seed/shared/models';
 
 const createProduct = ({ name, description, state }: { name: string; description?: string; state: boolean }): RDEValue<Product> => {
   const id = `urn:vcloud:entity:vmware:product:${faker.datatype.uuid()}`;
@@ -35,11 +35,11 @@ const products: RDEList<Product> = {
   pageSize: 25,
   associations: null,
   values: new Array(productsNum).fill(1).map(
-    (_) => <RDEValue<Product>>createProduct({
+    _ => <RDEValue<Product>>createProduct({
         name: faker.commerce.productName(),
         description: faker.lorem.sentence(20),
         state: faker.datatype.boolean(),
-      })
+      }),
   ),
 };
 

@@ -1,4 +1,4 @@
-import { RDEEntityState } from '@seed/rde';
+import { RDEEntityState } from '@seed/shared/models';
 
 export interface Product extends RDEEntityState {
   id: string;

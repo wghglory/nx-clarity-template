@@ -1,6 +1,6 @@
 <clr-alert class="mb-4" [clrAlertType]="'danger'" *ngIf="error$ | async as error">
   <clr-alert-item>
-    <span class="alert-text">
+    <span class="alert-text" role="alert">
       {{ error.message }}
     </span>
   </clr-alert-item>
@@ -11,12 +11,12 @@
   (clrDgRefresh)="refresh($event)"
   [clrDgLoading]="(loading$ | async) === true"
   [(clrDgSingleSelected)]="selectedItem"
-  (clrDgSingleSelectedChange)="productStateService.selectItem($event!)"
+  (clrDgSingleSelectedChange)="productService.selectItem($event!)"
 >
   <clr-dg-column>Product ID</clr-dg-column>
   <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
   <clr-dg-column [clrDgField]="'productionDate'">Production date</clr-dg-column>
-  <clr-dg-column [clrDgField]="'description'">Description</clr-dg-column>
+  <clr-dg-column [clrDgField]="'description'" class="max-w-[600px]">Description</clr-dg-column>
 
   <clr-dg-placeholder>No data found</clr-dg-placeholder>
 
@@ -26,7 +26,7 @@
       <a [routerLink]="product.id">{{ product.name }}</a>
     </clr-dg-cell>
     <clr-dg-cell>{{ product.entity.productionDate | date }}</clr-dg-cell>
-    <clr-dg-cell>{{ product.entity.description }}</clr-dg-cell>
+    <clr-dg-cell class="max-w-[600px]">{{ product.entity.description }}</clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>

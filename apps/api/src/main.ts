@@ -16,10 +16,6 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.use(delayMiddleware);
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
-});
-
 app.use(`/api/products`, productRouter);
 
 const port = process.env.PORT || 3333;

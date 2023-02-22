@@ -3,29 +3,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
-import { CardState, cardStateHandler, RDEList } from '@seed/rde';
-import { LoadingOrErrorComponent } from '@seed/shared/ui';
-import { startWithTap } from '@seed/shared/utils';
-import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, scan, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
+import { RDEList } from '@seed/shared/models';
+import { SpinnerComponent } from '@seed/shared/ui';
+import { CardState, cardStateHandler, startWithTap } from '@seed/shared/utils';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, of, scan, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
-import { ProductStateService } from '../../services/product-state.service';
 
 @Component({
   selector: 'seed-product-card-list',
   standalone: true,
-  imports: [CommonModule, ClarityModule, RouterModule, LoadingOrErrorComponent],
+  imports: [CommonModule, ClarityModule, RouterModule, SpinnerComponent],
   templateUrl: './product-card-list.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardListComponent {
-  constructor(private productService: ProductService, private productStateService: ProductStateService) {}
+  constructor(private productService: ProductService) {}
 
   @Output() deleteEvent = new EventEmitter();
 
-  // products$ = this.productStateService.refreshAction$.pipe(
+  // products$ = this.productService.refreshAction$.pipe(
   //   switchMap(() => {
   //     return this.productService.products$;
   //   }),
@@ -37,7 +36,7 @@ export class ProductCardListComponent {
 
   pageSize = 9;
 
-  error$ = new Subject<HttpErrorResponse>();
+  error$ = new Subject<HttpErrorResponse | null>();
   loading$ = new Subject<boolean>();
   currentPage$ = new BehaviorSubject<number>(1);
 
@@ -45,26 +44,29 @@ export class ProductCardListComponent {
 
   // loadMore --> change page --> get paged products --> scan
   products$ = this.currentPage$.pipe(
-    switchMap((page) => {
+    switchMap(page => {
       const params = cardStateHandler({ current: page });
       return this.productService.getProducts(params).pipe(
-        startWithTap(() => this.loading$.next(true)),
+        startWithTap(() => {
+          this.loading$.next(true);
+          this.error$.next(null);
+        }),
         finalize(() => this.loading$.next(false)),
-        catchError((err) => {
+        catchError(err => {
           this.error$.next(err);
           return EMPTY;
-        })
+        }),
       );
     }),
     scan((acc, curr) => {
       return { ...acc, values: [...acc.values, ...curr.values] };
-    })
+    }),
   );
 
-  refresh$ = this.productStateService.refreshAction$.pipe(
+  refresh$ = this.productService.refreshAction$.pipe(
     tap(() => {
       this.currentPage$.next(1);
-    })
+    }),
   );
 
   // filter and load more
@@ -77,12 +79,15 @@ export class ProductCardListComponent {
       const params = cardStateHandler(state);
 
       return this.productService.getProducts(params).pipe(
-        startWithTap(() => this.loading$.next(true)),
+        startWithTap(() => {
+          this.loading$.next(true);
+          this.error$.next(null);
+        }),
         finalize(() => this.loading$.next(false)),
-        catchError((err) => {
+        catchError(err => {
           this.error$.next(err);
           return EMPTY;
-        })
+        }),
       );
     }),
     withLatestFrom(this.currentPage$),
@@ -91,11 +96,11 @@ export class ProductCardListComponent {
     // another approach: https://codesandbox.io/s/clear-scan-qsbeuc?file=/src/app/app.component.ts
     scan((acc, [rde, page]) => {
       return page === 1 ? rde : { ...acc, values: [...acc.values, ...rde.values], page };
-    }, {} as RDEList<Product>)
+    }, {} as RDEList<Product>),
   );
 
   deleteProduct(product: Product) {
-    this.productStateService.selectItem(product);
+    this.productService.selectItem(product);
     this.deleteEvent.emit();
   }
 

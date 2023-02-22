@@ -9,6 +9,9 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
+  moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
+  coverageReporters: ['lcov', 'json', 'text-summary'],
+  collectCoverage: true,
   coverageDirectory: '../../../coverage/libs/feature/product',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
