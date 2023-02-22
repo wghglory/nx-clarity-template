@@ -14,8 +14,7 @@ export default {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   moduleNameMapper: {
-    '@cds/core/icon/(.*)$':
-      '<rootDir>/../../node_modules/@cds/core/icon/index.js',
+    '@cds/core/icon/(.*)$': '<rootDir>/../../node_modules/@cds/core/icon/index.js',
   },
   transformIgnorePatterns: ['node_modules/(?!(@cds|@lit|lit|ramda|.*\\.mjs$))'], // ['node_modules/(?!.*\\.mjs$)'],
   snapshotSerializers: [

@@ -14,14 +14,7 @@ import { ProductDeleteComponent } from '../../ui/product-delete/product-delete.c
 @Component({
   selector: 'seed-product-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ClarityModule,
-    FormsModule,
-    LoadingOrErrorComponent,
-    ProductDeleteComponent,
-  ],
+  imports: [CommonModule, RouterModule, ClarityModule, FormsModule, LoadingOrErrorComponent, ProductDeleteComponent],
   templateUrl: './product-list.component.html',
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,10 +30,10 @@ export class ProductListComponent {
     switchMap(() => {
       return this.productService.products$;
     }),
-    catchError((err) => {
+    catchError(err => {
       this.error$.next(err);
       return EMPTY;
-    })
+    }),
   );
 
   openDeleteDialog = false;

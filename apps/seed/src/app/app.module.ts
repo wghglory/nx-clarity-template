@@ -12,16 +12,7 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterModule,
-    ClarityModule,
-    AppRoutingModule,
-
-    NavbarComponent,
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule, ClarityModule, AppRoutingModule, NavbarComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

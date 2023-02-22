@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClarityModule } from '@clr/angular';
 import { catchError, EMPTY, finalize, Subject, switchMap, tap } from 'rxjs';
 
@@ -42,16 +36,16 @@ export class ProductDeleteComponent {
     switchMap(() =>
       this.productService.deleteProduct(this.product.id).pipe(
         finalize(() => this.loadingSub.next(false)),
-        catchError((err) => {
+        catchError(err => {
           this.errorSub.next(err);
           return EMPTY;
-        })
-      )
+        }),
+      ),
     ),
     tap(() => {
       this.close();
       this.refreshData.emit();
-    })
+    }),
   );
 
   close() {

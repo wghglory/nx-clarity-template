@@ -18,7 +18,7 @@ export class ProductService {
   addProduct(
     payload: Partial<{
       name: string;
-    }>
+    }>,
   ) {
     return this.http.post<Product>(`/api/products`, payload);
   }

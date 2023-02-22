@@ -16,10 +16,7 @@ import { ProductService } from '../../services/product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailComponent {
-  constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private productService: ProductService, private route: ActivatedRoute) {}
 
   readonly error$ = new Subject<HttpErrorResponse>();
 
@@ -27,9 +24,9 @@ export class ProductDetailComponent {
     switchMap(({ id }) => {
       return this.productService.getProduct(id);
     }),
-    catchError((err) => {
+    catchError(err => {
       this.error$.next(err);
       return EMPTY;
-    })
+    }),
   );
 }

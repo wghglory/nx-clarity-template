@@ -11,7 +11,7 @@ productRouter.get('/', (req, res) => {
 
 productRouter.get('/:id', (req, res) => {
   const id = req.params.id;
-  const found = products.find((p) => p.id === id);
+  const found = products.find(p => p.id === id);
 
   if (found) {
     return res.send(found);
@@ -36,7 +36,7 @@ productRouter.post('/', (req, res) => {
 
 productRouter.delete('/:id', (req, res) => {
   const id = req.params.id;
-  const index = products.findIndex((p) => p.id === id);
+  const index = products.findIndex(p => p.id === id);
 
   if (index > -1) {
     products.splice(index, 1);

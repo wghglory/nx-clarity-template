@@ -18,11 +18,7 @@ describe('ProductDetailComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ProductDetailComponent,
-        MockComponent(LoadingOrErrorComponent),
-      ],
+      imports: [RouterTestingModule, ProductDetailComponent, MockComponent(LoadingOrErrorComponent)],
       providers: [{ provide: ProductService, useValue: productServiceStub }],
     }).compileComponents();
 

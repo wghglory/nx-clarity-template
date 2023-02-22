@@ -1,25 +1,14 @@
 <h2>Products</h2>
 
 <div class="my-6 space-x-2">
-  <button
-    class="btn btn-secondary"
-    [disabled]="!selectedProduct"
-    (click)="openDeleteDialog = true"
-  >
-    Delete
-  </button>
+  <button class="btn btn-secondary" [disabled]="!selectedProduct" (click)="openDeleteDialog = true">Delete</button>
   <button class="btn btn-secondary" [routerLink]="'@/add'">Add</button>
 </div>
 
 <ul *ngIf="products$ | async as products; else loadingOrError">
   <li *ngFor="let product of products" class="flex">
     <div class="w-1/4 space-x-6">
-      <input
-        type="radio"
-        name="product"
-        [(ngModel)]="selectedProduct"
-        [value]="product"
-      />
+      <input type="radio" name="product" [(ngModel)]="selectedProduct" [value]="product" />
       <a [routerLink]="product.id">{{ product.name }}</a>
     </div>
     <p cds-text class="w-3/4">{{ product.description }}</p>
