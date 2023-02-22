@@ -3,12 +3,11 @@ import { NavbarComponent } from '@seed/core/ui';
 import { MockComponent } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, MockComponent(NxWelcomeComponent), MockComponent(NavbarComponent)],
+      declarations: [AppComponent, MockComponent(NavbarComponent)],
     }).compileComponents();
   });
 

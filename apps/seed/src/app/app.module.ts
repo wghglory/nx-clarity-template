@@ -8,10 +8,9 @@ import { NavbarComponent } from '@seed/core/ui';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
+  declarations: [AppComponent],
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule, ClarityModule, AppRoutingModule, NavbarComponent],
   providers: [],
   bootstrap: [AppComponent],
